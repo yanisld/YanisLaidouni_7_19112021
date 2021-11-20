@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/yanisld/YanisLaidouni_7_19112021/issues"
   },
-  "homepage": "https://github.com/yanisld/YanisLaidouni_7_19112021#readme"
+  "homepage": "https://github.com/yanisld/YanisLaidouni_7_19112021#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
