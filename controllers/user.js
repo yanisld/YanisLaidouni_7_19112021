@@ -37,11 +37,32 @@ exports.getAllUsers = (req, res, next) => {
 }
 
 exports.getOne = (req, res, next) => {
-    const id = {id: req.params.id};
+    const id = { id: req.params.id };
     const query = connection.query('SELECT * FROM `user` WHERE ?',
-    id,
+        id,
         function (error, results, fields) {
             if (error) throw error;
             res.status(200).json({ results });
+        });
+}
+
+exports.updateOne = (req, res, next) => {
+    const user = { name: req.body.name, email: req.body.email, password: req.body.password };
+    const id = { id: req.params.id };
+    const query = connection.query('UPDATE `user` SET ? WHERE ?',
+        [user, id],
+        function (error, results, fields) {
+            if (error) throw error;
+            res.status(200).json({ message: 'Utilisateur modifié !' });
+        });
+}
+
+exports.deleteOne = (req, res, next) => {
+    const id = { id: req.params.id };
+    const query = connection.query('DELETE FROM `user` WHERE ?',
+        id,
+        function (error, results, fields) {
+            if (error) throw error;
+            res.status(200).json({ message: 'Utilisateur supprimé !' });
         });
 }
