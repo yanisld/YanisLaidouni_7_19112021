@@ -27,3 +27,21 @@ exports.signup = (req, res, next) => {
             res.status(201).json({ message: 'Utilisateur créé !' });
         });
 }
+
+exports.getAllUsers = (req, res, next) => {
+    const query = connection.query('SELECT * FROM `user`',
+        function (error, results, fields) {
+            if (error) throw error;
+            res.status(200).json({ results });
+        });
+}
+
+exports.getOne = (req, res, next) => {
+    const id = {id: req.params.id};
+    const query = connection.query('SELECT * FROM `user` WHERE ?',
+    id,
+        function (error, results, fields) {
+            if (error) throw error;
+            res.status(200).json({ results });
+        });
+}
