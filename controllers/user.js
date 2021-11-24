@@ -1,10 +1,14 @@
 const User = require('../models/User');
+const Role = require('../models/Role');
 
 exports.signup = (req, res, next) => {
+    Role.sync();
     User.sync();
+    Role.create();
     User.create({ 
-        firstName: req.body.firstName,
-        lastName: req.body.lastName
+        username: req.body.username,
+        email: req.body.email,
+        password: req.body.password
     })
     .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
     .catch(error => res.status(400).json({ error }));
