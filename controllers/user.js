@@ -1,10 +1,10 @@
 const User = require('../models/User');
 const Role = require('../models/Role');
 
-exports.signup = (req, res, next) => {
-    Role.sync();
-    User.sync();
+exports.signup = async (req, res, next) => {
+    await Role.sync();
     Role.create();
+    await User.sync();
     User.create({ 
         username: req.body.username,
         email: req.body.email,
@@ -28,8 +28,9 @@ exports.getOne = (req, res, next) => {
 
 exports.updateOne = (req, res, next) => {
     User.update({
-                    firstName: req.body.firstName,
-                    lastName: req.body.lastName},
+                    username: req.body.username,
+                    email: req.body.email,
+                    password: req.body.password},
                 {where: {id: req.params.id}})
         .then(() => res.status(200).json({message: 'Utilisateur mis à jour !'}))
         .catch(error => res.status(400).json({ error }));
