@@ -1,43 +1,73 @@
-const User = require('../models/User');
-const Role = require('../models/Role');
+const db = require('../models')
+const User = db.user;
+const Role = db.role;
 
-exports.signup = async (req, res, next) => {
-    await Role.sync();
-    Role.create();
-    await User.sync();
-    User.create({ 
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password
-    })
-    .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
-    .catch(error => res.status(400).json({ error }));
+exports.createOne = async (req, res, next) => {
+    try {
+        let role = await Role.findOne({ attributes: ['id'], where: { name: 'participant' }, raw:true });
+        if (!role) {
+            await Role.create();
+        }
+        role = await Role.findOne({ attributes: ['id'], where: { name: 'participant' }, raw:true });
+        await User.beforeCreate((user) => {user.role_id = role.id});
+        await User.create({
+            username: req.body.username,
+            email: req.body.email,
+            password: req.body.password
+        });
+        return res.status(201).json({ message: 'Utilisateur créé !' });
+    }
+    catch (err) {
+        res.status(400).json({ err });
+        console.error(err);
+    }
 };
 
-exports.getAll = (req, res, next) => {
-    User.findAll()
-        .then((results) => {res.status(200).json(results);})
-        .catch(error => res.status(400).json({ error }));
+exports.getAll = async (req, res, next) => {
+    try {
+        const results = await User.findAll();
+        return res.status(200).json(results);
+    }
+    catch (err) {
+        res.status(400).json({ err });
+        console.error(err);
+    }
 };
 
-exports.getOne = (req, res, next) => {
-    User.findOne({ where: {id: req.params.id} })
-        .then((result) => {res.status(200).json(result)})
-        .catch(error => res.status(400).json({ error }));
+exports.getOne = async (req, res, next) => {
+    try {
+        const result = await User.findOne({ where: { id: req.params.id } });
+        return res.status(200).json(result);
+    }
+    catch (err) {
+        res.status(400).json({ err });
+        console.error(err);
+    }
 };
 
-exports.updateOne = (req, res, next) => {
-    User.update({
-                    username: req.body.username,
-                    email: req.body.email,
-                    password: req.body.password},
-                {where: {id: req.params.id}})
-        .then(() => res.status(200).json({message: 'Utilisateur mis à jour !'}))
-        .catch(error => res.status(400).json({ error }));
+exports.updateOne = async (req, res, next) => {
+    try {
+        await User.update({
+            username: req.body.username,
+            email: req.body.email,
+            password: req.body.password
+        },
+            { where: { id: req.params.id } });
+        return res.status(200).json({ message: 'Utilisateur mis à jour !' })
+    }
+    catch (err) {
+        res.status(400).json({ err });
+        console.error(err);
+    }
 };
 
-exports.deleteOne = (req, res, next) => {
-    User.destroy({where: {id: req.params.id}})
-        .then(() => res.status(200).json({message: 'Utilisateur supprimé !'}))
-        .catch(error => res.status(400).json({ error }));
+exports.deleteOne = async (req, res, next) => {
+    try {
+        await User.destroy({ where: { id: req.params.id } });
+        return res.status(200).json({ message: 'Utilisateur supprimé !' })
+    }
+    catch (err) {
+        res.status(400).json({ err });
+        console.error(err);
+    }
 };

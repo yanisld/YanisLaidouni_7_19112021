@@ -11,6 +11,7 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
 });
 try {
     sequelize.authenticate();
+    sequelize.sync();
     console.log('Connecté à la base de données !');
 } catch (error) {
     console.error('Connexion à la BDD échouée:', error);
