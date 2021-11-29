@@ -1,6 +1,7 @@
 const express = require('express');
 const database = require('./config/database');
 const userRoutes = require('./routes/user');
+const postRoutes = require('./routes/post');
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/', userRoutes);
+app.use('/users', userRoutes);
+app.use('/posts', postRoutes);
 
 module.exports = app;

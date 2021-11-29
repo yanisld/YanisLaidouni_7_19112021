@@ -25,7 +25,7 @@ exports.createOne = async (req, res, next) => {
 
 exports.getAll = async (req, res, next) => {
     try {
-        const results = await User.findAll();
+        const results = await User.findAll({include: ['role']});
         return res.status(200).json(results);
     }
     catch (err) {
@@ -36,7 +36,7 @@ exports.getAll = async (req, res, next) => {
 
 exports.getOne = async (req, res, next) => {
     try {
-        const result = await User.findOne({ where: { id: req.params.id } });
+        const result = await User.findOne({ include: ['role'], where: { id: req.params.id } });
         return res.status(200).json(result);
     }
     catch (err) {
