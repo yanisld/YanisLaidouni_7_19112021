@@ -1,13 +1,10 @@
 const db = require('../models')
 const Post = db.post;
-const userCtrl = require('../controllers/user');
 
 exports.createPost = async (req, res, next) => {
     try {
         await Post.create({
-            title: req.body.title,
-            content: req.body.content,
-            user_id: req.user.id
+            ...req.body
         });
         return res.status(201).json({ message: 'Publication créée !' });
     }
