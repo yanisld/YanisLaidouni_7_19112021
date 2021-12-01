@@ -1,4 +1,5 @@
 const db = require('../models');
+const jwt = require('jsonwebtoken');
 const User = db.user;
 const Role = db.role;
 
@@ -25,17 +26,18 @@ exports.createOne = async (req, res, next) => {
 
 exports.login = async (req, res, next) => {
     try {
-        const email = await User.findOne({ attributes: ['email'], where: { email: req.body.email }, raw: true });
-        if (!email) {
+        const user = await User.findOne({ where: { email: req.body.email }, raw: true });
+        if (!user) {
             return res.status(401).json({ error: 'Utilisateur non trouvé !' });
         }
         else {
-            const password = await User.findOne({ attributes: ['password'], where: { email: email.email }, raw: true });
-            if (!password.password || password.password != req.body.password) {
+            const password = user.password;
+            if (!password || password != req.body.password) {
                 return res.status(401).json({ error: 'Mot de passe incorrect !' });
             }
             else {
-                return res.status(200).json({ message: 'Utilisateur connecté !' });
+                const token = jwt.sign({id: user.id}, 'secretKey', { expiresIn: '24h' });
+                return res.status(200).json({ message: 'Utilisateur connecté !', token });
             }
         }    
     }

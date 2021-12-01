@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const postCtrl = require('../controllers/post');
 const commentCtrl = require('../controllers/comment');
+const auth = require('../middleware/auth');
 
-router.post('/add', postCtrl.createPost);
+router.post('/add', auth, postCtrl.createPost);
 router.get('/', postCtrl.getAllPosts);
 router.get('/:id', postCtrl.getPost);
 router.put('/:id', postCtrl.updatePost);
