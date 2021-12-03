@@ -23,8 +23,8 @@ db.comment.belongsTo(db.user, {
     foreignKey: 'user_id', onDelete: 'NO ACTION', onUpdate: 'NO ACTION'
 });
 
-db.comment.belongsTo(db.role, {
-    foreignKey: 'role_id', onDelete: 'NO ACTION', onUpdate: 'NO ACTION'
+db.comment.belongsTo(db.post, {
+    foreignKey: 'post_id', onDelete: 'NO ACTION', onUpdate: 'NO ACTION'
 });
 
 module.exports = db;
