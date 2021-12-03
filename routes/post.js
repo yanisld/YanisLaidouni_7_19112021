@@ -4,16 +4,16 @@ const postCtrl = require('../controllers/post');
 const commentCtrl = require('../controllers/comment');
 const auth = require('../middleware/auth');
 
-router.post('/add', auth, postCtrl.createPost);
-router.get('/', auth, postCtrl.getAllPosts);
-router.get('/:id', auth, postCtrl.getPost);
-router.put('/:id', auth, postCtrl.updatePost);
-router.delete('/:id', auth, postCtrl.deletePost);
+router.post('/', auth, postCtrl.create);
+router.get('/', auth, postCtrl.getAll);
+router.get('/:id', auth, postCtrl.get);
+router.put('/:id', auth, postCtrl.update);
+router.delete('/:id', auth, postCtrl.delete);
 
-router.post('/comment/add', commentCtrl.createComment);
-router.get('/comments', commentCtrl.getAllComments);
-router.get('/comment:id', commentCtrl.getComment);
-router.put('/comment:id', commentCtrl.updateComment);
-router.delete('/comment:id', commentCtrl.deleteComment);
+router.post('/comment/add', commentCtrl.create);
+router.get('/comments', commentCtrl.getAll);
+router.get('/comment:id', commentCtrl.get);
+router.put('/comment:id', commentCtrl.update);
+router.delete('/comment:id', commentCtrl.delete);
 
 module.exports = router;

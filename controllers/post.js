@@ -1,7 +1,7 @@
 const db = require('../models')
 const Post = db.post;
 
-exports.createPost = async (req, res, next) => {
+exports.create = async (req, res, next) => {
     try {
         await Post.create({
             ...req.body
@@ -14,7 +14,7 @@ exports.createPost = async (req, res, next) => {
     }
 };
 
-exports.getAllPosts = async (req, res, next) => {
+exports.getAll = async (req, res, next) => {
     try {
         const results = await Post.findAll();
         return res.status(200).json(results);
@@ -25,7 +25,7 @@ exports.getAllPosts = async (req, res, next) => {
     }
 };
 
-exports.getPost = async (req, res, next) => {
+exports.get = async (req, res, next) => {
     try {
         const result = await Post.findOne({ where: { id: req.params.id } });
         return res.status(200).json(result);
@@ -36,7 +36,7 @@ exports.getPost = async (req, res, next) => {
     }
 };
 
-exports.updatePost = async (req, res, next) => {
+exports.update = async (req, res, next) => {
     try {
         await Post.update({
             title: req.body.title,
@@ -51,7 +51,7 @@ exports.updatePost = async (req, res, next) => {
     }
 };
 
-exports.deletePost = async (req, res, next) => {
+exports.delete = async (req, res, next) => {
     try {
         await Post.destroy({ where: { id: req.params.id } });
         return res.status(200).json({ message: 'Publication supprimée !' })

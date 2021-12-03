@@ -1,7 +1,7 @@
 const db = require('../models')
 const Comment = db.comment;
 
-exports.createComment = async (req, res, next) => {
+exports.create = async (req, res, next) => {
     try {
         await Comment.create({
             content: req.body.content
@@ -14,7 +14,7 @@ exports.createComment = async (req, res, next) => {
     }
 };
 
-exports.getAllComments = async (req, res, next) => {
+exports.getAll = async (req, res, next) => {
     try {
         const results = await Comment.findAll();
         return res.status(200).json(results);
@@ -25,7 +25,7 @@ exports.getAllComments = async (req, res, next) => {
     }
 };
 
-exports.getComment = async (req, res, next) => {
+exports.get = async (req, res, next) => {
     try {
         const result = await Comment.findOne({ where: { id: req.params.id } });
         return res.status(200).json(result);
@@ -36,7 +36,7 @@ exports.getComment = async (req, res, next) => {
     }
 };
 
-exports.updateComment = async (req, res, next) => {
+exports.update = async (req, res, next) => {
     try {
         await Comment.update({
             content: req.body.content
@@ -50,7 +50,7 @@ exports.updateComment = async (req, res, next) => {
     }
 };
 
-exports.deleteComment = async (req, res, next) => {
+exports.delete = async (req, res, next) => {
     try {
         await Comment.destroy({ where: { id: req.params.id } });
         return res.status(200).json({ message: 'Commentaire supprimé !' })

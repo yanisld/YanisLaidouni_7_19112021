@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const User = db.user;
 const Role = db.role;
 
-exports.createOne = async (req, res, next) => {
+exports.create = async (req, res, next) => {
     try {
         let role = await Role.findOne({ attributes: ['id'], where: { name: 'participant' }, raw: true });
         if (!role) {
@@ -58,7 +58,7 @@ exports.getAll = async (req, res, next) => {
     }
 };
 
-exports.getOne = async (req, res, next) => {
+exports.get = async (req, res, next) => {
     try {
         const result = await User.findOne({ include: ['role'], where: { id: req.params.id } });
         return res.status(200).json(result);
@@ -69,7 +69,7 @@ exports.getOne = async (req, res, next) => {
     }
 };
 
-exports.updateOne = async (req, res, next) => {
+exports.update = async (req, res, next) => {
     try {
         await User.update({
             username: req.body.username,
@@ -85,7 +85,7 @@ exports.updateOne = async (req, res, next) => {
     }
 };
 
-exports.deleteOne = async (req, res, next) => {
+exports.delete = async (req, res, next) => {
     try {
         await User.destroy({ where: { id: req.params.id } });
         return res.status(200).json({ message: 'Utilisateur supprimé !' })
