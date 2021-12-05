@@ -12,19 +12,19 @@ db.post = require('./Post')(sequelize, Sequelize);
 db.comment = require('./Comment')(sequelize, Sequelize);
 
 db.user.belongsTo(db.role, {
-    foreignKey: 'role_id', as: 'role', type: Sequelize.DataTypes.INTEGER, allowNull: false, onDelete: 'NO ACTION', onUpdate: 'NO ACTION'
+    foreignKey: { name:'role_id', allowNull: false }, onDelete: 'NO ACTION', onUpdate: 'NO ACTION'
 });
 
 db.post.belongsTo(db.user, {
-    foreignKey: 'user_id', type: Sequelize.DataTypes.INTEGER, allowNull: false, onDelete: 'NO ACTION', onUpdate: 'NO ACTION'
+    foreignKey: { name:'user_id', allowNull: false }, onDelete: 'NO ACTION', onUpdate: 'NO ACTION'
 });
 
 db.comment.belongsTo(db.user, {
-    foreignKey: 'user_id', onDelete: 'NO ACTION', onUpdate: 'NO ACTION'
+    foreignKey: { name:'user_id', allowNull: false }, onDelete: 'NO ACTION', onUpdate: 'NO ACTION'
 });
 
 db.comment.belongsTo(db.post, {
-    foreignKey: 'post_id', onDelete: 'NO ACTION', onUpdate: 'NO ACTION'
+    foreignKey: { name:'post_id', allowNull: false }, onDelete: 'NO ACTION', onUpdate: 'NO ACTION'
 });
 
 module.exports = db;

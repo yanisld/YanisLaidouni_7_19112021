@@ -10,10 +10,10 @@ router.get('/:id', auth, postCtrl.get);
 router.put('/:id', auth, postCtrl.update);
 router.delete('/:id', auth, postCtrl.delete);
 
-router.post('/comment/add', commentCtrl.create);
-router.get('/comments', commentCtrl.getAll);
-router.get('/comment:id', commentCtrl.get);
-router.put('/comment:id', commentCtrl.update);
-router.delete('/comment:id', commentCtrl.delete);
+router.post('/:id/comment/', auth, commentCtrl.create);
+router.get('/:id/comments', auth, commentCtrl.getAll);
+router.get('/:id/comment/:idcom', auth, commentCtrl.get);
+router.put('/:id/comment/:idcom', auth, commentCtrl.update);
+router.delete('/:id/comment/:idcom', auth, commentCtrl.delete);
 
 module.exports = router;
