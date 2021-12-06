@@ -8,14 +8,10 @@ exports.create = async (req, res, next) => {
         let role = await Role.findOne({ attributes: ['id'], where: { name: 'participant' }, raw: true });
         if (!role) {
             await Role.create();
+            role = await Role.findOne({ attributes: ['id'], where: { name: 'participant' }, raw: true });
         }
-        role = await Role.findOne({ attributes: ['id'], where: { name: 'participant' }, raw: true });
-        await User.beforeCreate((user) => { user.role_id = role.id });
-        await User.create({
-            username: req.body.username,
-            email: req.body.email,
-            password: req.body.password
-        });
+        req.body.role_id = role.id;
+        await User.create({ ...req.body });
         return res.status(201).json({ message: 'Utilisateur créé !' });
     }
     catch (err) {
@@ -36,7 +32,7 @@ exports.login = async (req, res, next) => {
                 return res.status(401).json({ error: 'Mot de passe incorrect !' });
             }
             else {
-                const token = jwt.sign({id: user.id}, 'secretKey', { expiresIn: '24h' });
+                const token = jwt.sign({id: user.id}, 'secretKey', { expiresIn: '12h' });
                 return res.status(200).json({ message: 'Utilisateur connecté !', token });
             }
         }    

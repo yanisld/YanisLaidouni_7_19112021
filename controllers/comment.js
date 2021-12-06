@@ -1,10 +1,8 @@
 const db = require('../models')
 const Comment = db.comment;
-const Post = db.post;
 
 exports.create = async (req, res, next) => {
     try {
-        //const postId = await Post.findOne({ attributes: ['id'], where: { id: req.params.id }, raw: true });
         req.body.post_id = req.params.id;
         await Comment.create({ ...req.body });
         return res.status(201).json({ message: 'Commentaire créé !' });
@@ -17,7 +15,7 @@ exports.create = async (req, res, next) => {
 
 exports.getAll = async (req, res, next) => {
     try {
-        const results = await Comment.findAll({ where: { post_id: req.params.id } });
+        const results = await Comment.findAll({ include: ['user'], where: { post_id: req.params.id } });
         return res.status(200).json(results);
     }
     catch (err) {
@@ -28,7 +26,7 @@ exports.getAll = async (req, res, next) => {
 
 exports.get = async (req, res, next) => {
     try {
-        const result = await Comment.findOne({ where: { post_id: req.params.id, id: req.params.idcom  } });
+        const result = await Comment.findOne({ include: ['user'], where: { post_id: req.params.id, id: req.params.idcom  } });
         return res.status(200).json(result);
     }
     catch (err) {
