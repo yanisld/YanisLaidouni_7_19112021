@@ -1,5 +1,6 @@
 const db = require('../models')
 const Post = db.post;
+const Comment = db.comment;
 
 exports.create = async (req, res, next) => {
     try {
@@ -53,6 +54,7 @@ exports.update = async (req, res, next) => {
 
 exports.delete = async (req, res, next) => {
     try {
+        await Comment.destroy({ where: { post_id: req.params.id } });
         await Post.destroy({ where: { id: req.params.id } });
         return res.status(200).json({ message: 'Publication supprimée !' })
     }

@@ -2,6 +2,8 @@ const db = require('../models');
 const jwt = require('jsonwebtoken');
 const User = db.user;
 const Role = db.role;
+const Post = db.post;
+const Comment = db.comment;
 
 exports.create = async (req, res, next) => {
     try {
@@ -83,6 +85,8 @@ exports.update = async (req, res, next) => {
 
 exports.delete = async (req, res, next) => {
     try {
+        await Post.destroy({ where: { user_id: req.params.id } });
+        await Comment.destroy({ where: { user_id: req.params.id } });
         await User.destroy({ where: { id: req.params.id } });
         return res.status(200).json({ message: 'Utilisateur supprimé !' })
     }
