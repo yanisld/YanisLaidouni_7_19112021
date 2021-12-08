@@ -1,15 +1,14 @@
 const db = require('../models');
-const jwt = require('jsonwebtoken');
+const verify = require('../middleware/verify');
 const Like = db.like;
 
 exports.create = async (req, res, next) => {
     try {
-        req.body.post_id = req.params.id;
-        const token = req.headers.authorization.split(' ')[1];
-        const decodedToken = jwt.verify(token, 'secretKey');
-        req.body.user_id = decodedToken.id;
-        let value = await Like.findOne({ attibutes: ['value'], where: { post_id: req.body.post_id, user_id: req.body.user_id }, raw: true });
+        userId = verify.verifyUser(req, res, next);
+        req.body.user_id = userId;
+        let value = await Like.findOne({ attibutes: ['value'], where: { post_id: req.params.id, user_id: req.body.user_id }, raw: true });
         if (!value) {
+            req.body.post_id = req.params.id;
             await Like.create({ ...req.body });
             let value = await Like.findOne({ attibutes: ['value'], where: { post_id: req.body.post_id, user_id: req.body.user_id }, raw: true });
             if (value.value == 1) {
