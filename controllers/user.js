@@ -1,4 +1,5 @@
 const db = require('../models');
+const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const User = db.user;
 const Role = db.role;
@@ -13,6 +14,7 @@ exports.create = async (req, res, next) => {
             role = await Role.findOne({ attributes: ['id'], where: { name: 'participant' }, raw: true });
         }
         req.body.role_id = role.id;
+        req.body.password = await bcrypt.hash(req.body.password, 10);
         await User.create({ ...req.body });
         return res.status(201).json({ message: 'Utilisateur créé !' });
     }
@@ -30,7 +32,8 @@ exports.login = async (req, res, next) => {
         }
         else {
             const password = user.password;
-            if (!password || password != req.body.password) {
+            const hash = await bcrypt.compare(req.body.password, password);
+            if (!password || !hash) {
                 return res.status(401).json({ error: 'Mot de passe incorrect !' });
             }
             else {
