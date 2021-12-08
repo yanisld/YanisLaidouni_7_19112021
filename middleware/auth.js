@@ -1,10 +1,8 @@
-const jwt = require('jsonwebtoken');
+const verify = require('./verify');
 
 module.exports = (req, res, next) => {
     try {
-        const token = req.headers.authorization.split(' ')[1];
-        const decodedToken = jwt.verify(token, 'secretKey');
-        const userId = decodedToken.id;
+        userId = verify.verifyUser(req, res, next);
         req.body.user_id = userId;
         if (req.body.user_id && req.body.user_id !== userId) {
             throw 'Identifiant utilisateur invalide !';
