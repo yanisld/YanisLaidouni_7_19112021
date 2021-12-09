@@ -1,10 +1,12 @@
 const db = require('../models');
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
+const verify = require('../middleware/verify');
 const User = db.user;
 const Role = db.role;
 const Post = db.post;
 const Comment = db.comment;
+const Like = db.like;
 
 exports.create = async (req, res, next) => {
     try {
@@ -37,10 +39,10 @@ exports.login = async (req, res, next) => {
                 return res.status(401).json({ error: 'Mot de passe incorrect !' });
             }
             else {
-                const token = jwt.sign({id: user.id}, 'secretKey', { expiresIn: '12h' });
+                const token = jwt.sign({ id: user.id }, 'secretKey', { expiresIn: '12h' });
                 return res.status(200).json({ message: 'Utilisateur connecté !', token });
             }
-        }    
+        }
     }
     catch (err) {
         res.status(500).json({ err });
@@ -72,13 +74,14 @@ exports.get = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
     try {
-        await User.update({
-            username: req.body.username,
-            email: req.body.email,
-            password: req.body.password
-        },
-            { where: { id: req.params.id } });
-        return res.status(200).json({ message: 'Utilisateur mis à jour !' })
+        const userId = verify.verifyUser(req, res, next);
+        if (userId == req.params.id) {
+            await User.update({ ...req.body }, { where: { id: req.params.id } });
+            return res.status(200).json({ message: 'Utilisateur mis à jour !' })
+        }
+        else {
+            res.status(401).json({ message: 'Utilisateur non autorisé !' });
+        }
     }
     catch (err) {
         res.status(400).json({ err });
@@ -88,10 +91,17 @@ exports.update = async (req, res, next) => {
 
 exports.delete = async (req, res, next) => {
     try {
-        await Post.destroy({ where: { user_id: req.params.id } });
-        await Comment.destroy({ where: { user_id: req.params.id } });
-        await User.destroy({ where: { id: req.params.id } });
-        return res.status(200).json({ message: 'Utilisateur supprimé !' })
+        const userId = verify.verifyUser(req, res, next);
+        if (userId == req.params.id) {
+            await Like.destroy({ where: { user_id: req.params.id } });
+            await Comment.destroy({ where: { user_id: req.params.id } });
+            await Post.destroy({ where: { user_id: req.params.id } });
+            await User.destroy({ where: { id: req.params.id } });
+            return res.status(200).json({ message: 'Utilisateur supprimé !' });
+        }
+        else {
+            res.status(401).json({ message: 'Utilisateur non autorisé !' });
+        }
     }
     catch (err) {
         res.status(400).json({ err });
