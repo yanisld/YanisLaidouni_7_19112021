@@ -2,6 +2,7 @@ const db = require('../models');
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const verify = require('../middleware/verify');
+const Sequelize = db.Sequelize;
 const User = db.user;
 const Role = db.role;
 const Post = db.post;
@@ -15,7 +16,9 @@ exports.create = async (req, res, next) => {
             await Role.create();
             role = await Role.findOne({ attributes: ['id'], where: { name: 'participant' }, raw: true });
         }
-        req.body.role_id = role.id;
+        if (!req.body.role_id) {
+            req.body.role_id = role.id;
+        }
         req.body.password = await bcrypt.hash(req.body.password, 10);
         await User.create({ ...req.body });
         return res.status(201).json({ message: 'Utilisateur créé !' });
@@ -75,7 +78,8 @@ exports.get = async (req, res, next) => {
 exports.update = async (req, res, next) => {
     try {
         const userId = verify.verifyUser(req, res, next);
-        if (userId == req.params.id) {
+        const user = await User.findOne({ include: ['role'], where: { id: userId } });
+        if (userId == req.params.id || user.role.dataValues.name == 'moderator') {
             await User.update({ ...req.body }, { where: { id: req.params.id } });
             return res.status(200).json({ message: 'Utilisateur mis à jour !' })
         }
@@ -92,7 +96,8 @@ exports.update = async (req, res, next) => {
 exports.delete = async (req, res, next) => {
     try {
         const userId = verify.verifyUser(req, res, next);
-        if (userId == req.params.id) {
+        const user = await User.findOne({ include: ['role'], where: { id: userId } });
+        if (userId == req.params.id || user.role.dataValues.name == 'moderator') {
             await Like.destroy({ where: { user_id: req.params.id } });
             await Comment.destroy({ where: { user_id: req.params.id } });
             await Post.destroy({ where: { user_id: req.params.id } });

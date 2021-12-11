@@ -42,7 +42,8 @@ exports.get = async (req, res, next) => {
 exports.update = async (req, res, next) => {
     try {
         const userId = verify.verifyUser(req, res, next);
-        const result = await Post.findOne({ where: { id: req.params.id }, raw: true });
+        const result = await Post.findOne({ include: ['user'], where: { id: req.params.id }, raw: true });
+        console.log(result);
         if (userId == result.user_id) {
             await Post.update({ ...req.body }, { where: { id: req.params.id } });
             return res.status(200).json({ message: 'Publication mise à jour !' })
