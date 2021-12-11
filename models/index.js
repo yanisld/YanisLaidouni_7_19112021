@@ -16,6 +16,10 @@ db.user.belongsTo(db.role, {
     as: 'role', foreignKey: { name:'role_id', allowNull: false }, onDelete: 'NO ACTION'
 });
 
+db.user.hasMany(db.post, {
+    as: 'user', foreignKey: { name:'user_id', allowNull: false }, onDelete: 'NO ACTION'
+});
+
 db.post.belongsTo(db.user, {
     as: 'user', foreignKey: { name:'user_id', allowNull: false }, onDelete: 'NO ACTION'
 });

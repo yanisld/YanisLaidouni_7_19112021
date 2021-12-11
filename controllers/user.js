@@ -2,7 +2,7 @@ const db = require('../models');
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
 const verify = require('../middleware/verify');
-const Sequelize = db.Sequelize;
+const constant = require('../config/constant');
 const User = db.user;
 const Role = db.role;
 const Post = db.post;
@@ -79,7 +79,7 @@ exports.update = async (req, res, next) => {
     try {
         const userId = verify.verifyUser(req, res, next);
         const user = await User.findOne({ include: ['role'], where: { id: userId } });
-        if (userId == req.params.id || user.role.dataValues.name == 'moderator') {
+        if (userId == req.params.id || user.role.dataValues.name == constant.admin) {
             await User.update({ ...req.body }, { where: { id: req.params.id } });
             return res.status(200).json({ message: 'Utilisateur mis à jour !' })
         }
@@ -97,7 +97,7 @@ exports.delete = async (req, res, next) => {
     try {
         const userId = verify.verifyUser(req, res, next);
         const user = await User.findOne({ include: ['role'], where: { id: userId } });
-        if (userId == req.params.id || user.role.dataValues.name == 'moderator') {
+        if (userId == req.params.id || user.role.dataValues.name == constant.admin) {
             await Like.destroy({ where: { user_id: req.params.id } });
             await Comment.destroy({ where: { user_id: req.params.id } });
             await Post.destroy({ where: { user_id: req.params.id } });

@@ -1,6 +1,8 @@
 const db = require('../models');
 const verify = require('../middleware/verify');
+const constant = require('../config/constant');
 const Post = db.post;
+const User = db.user;
 const Comment = db.comment;
 const Like = db.like;
 
@@ -42,9 +44,9 @@ exports.get = async (req, res, next) => {
 exports.update = async (req, res, next) => {
     try {
         const userId = verify.verifyUser(req, res, next);
-        const result = await Post.findOne({ include: ['user'], where: { id: req.params.id }, raw: true });
-        console.log(result);
-        if (userId == result.user_id) {
+        const result = await Post.findOne({ include:  ['user'], where: { id: req.params.id }, raw: true });
+        const role = await User.findOne({ include:  ['role'], where: { id: userId } });
+        if (userId == result.user_id || role.role.dataValues.name == constant.admin) {
             await Post.update({ ...req.body }, { where: { id: req.params.id } });
             return res.status(200).json({ message: 'Publication mise à jour !' })
         }
@@ -62,7 +64,8 @@ exports.delete = async (req, res, next) => {
     try {
         const userId = verify.verifyUser(req, res, next);
         const result = await Post.findOne({ where: { id: req.params.id }, raw: true });
-        if (userId == result.user_id) {
+        const role = await User.findOne({ include:  ['role'], where: { id: userId } });
+        if (userId == result.user_id || role.role.dataValues.name == constant.admin) {
             await Like.destroy({ where: { post_id: req.params.id } });
             await Comment.destroy({ where: { post_id: req.params.id } });
             await Post.destroy({ where: { id: req.params.id } });

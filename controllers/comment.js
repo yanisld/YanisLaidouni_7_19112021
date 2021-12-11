@@ -1,6 +1,8 @@
 const db = require('../models');
 const verify = require('../middleware/verify');
+const constant = require('../config/constant');
 const Comment = db.comment;
+const User = db.user;
 
 exports.create = async (req, res, next) => {
     try {
@@ -40,7 +42,8 @@ exports.update = async (req, res, next) => {
     try {
         const userId = verify.verifyUser(req, res, next);
         const result = await Comment.findOne({ where: { post_id: req.params.id, id: req.params.idcom }, raw: true });
-        if (userId == result.user_id) {
+        const role = await User.findOne({ include:  ['role'], where: { id: userId } });
+        if (userId == result.user_id || role.role.dataValues.name == constant.admin) {
             await Comment.update({ content: req.body.content }, { where: { post_id: req.params.id, id: req.params.idcom } });
             return res.status(200).json({ message: 'Commentaire mis à jour !' });
         }
@@ -58,7 +61,8 @@ exports.delete = async (req, res, next) => {
     try {
         const userId = verify.verifyUser(req, res, next);
         const result = await Comment.findOne({ where: { post_id: req.params.id, id: req.params.idcom }, raw: true });
-        if (userId == result.user_id) {
+        const role = await User.findOne({ include:  ['role'], where: { id: userId } });
+        if (userId == result.user_id || role.role.dataValues.name == constant.admin) {
             await Comment.destroy({ where: { post_id: req.params.id, id: req.params.idcom } });
             return res.status(200).json({ message: 'Commentaire supprimé !' });
         }
