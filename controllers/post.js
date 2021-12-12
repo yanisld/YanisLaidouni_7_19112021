@@ -47,6 +47,7 @@ exports.update = async (req, res, next) => {
         const result = await Post.findOne({ include:  ['user'], where: { id: req.params.id }, raw: true });
         const role = await User.findOne({ include:  ['role'], where: { id: userId } });
         if (userId == result.user_id || role.role.dataValues.name == constant.admin) {
+            req.body.user_id = result.user_id;
             await Post.update({ ...req.body }, { where: { id: req.params.id } });
             return res.status(200).json({ message: 'Publication mise à jour !' })
         }
