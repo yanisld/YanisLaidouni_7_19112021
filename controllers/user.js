@@ -80,6 +80,9 @@ exports.update = async (req, res, next) => {
         const userId = verify.verifyUser(req, res, next);
         const user = await User.findOne({ include: ['role'], where: { id: userId } });
         if (userId == req.params.id || user.role.dataValues.name == constant.admin) {
+            if (req.body.password) {
+                req.body.password = await bcrypt.hash(req.body.password, 10);
+            }
             await User.update({ ...req.body }, { where: { id: req.params.id } });
             return res.status(200).json({ message: 'Utilisateur mis à jour !' })
         }
