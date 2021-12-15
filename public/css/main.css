@@ -1,0 +1,28 @@
+/* HEADER */
+header {
+    padding: 10px;
+    margin: 0 0 50px 0;
+}
+/* MAIN */
+.main {
+    max-width: 1024px;
+    margin: 0 auto 50px;
+}
+.page-title {
+    text-align: center;
+}
+.form {
+    display: flex;
+    justify-content: space-around;
+}
+.form form {
+    display: flex;
+    flex-direction: column;
+}
+.form form input {
+    margin: 5px 0;
+}
+/* FOOTER */
+footer {
+    padding: 10px;
+}
