@@ -1,6 +1,7 @@
 const db = require('../models');
 const verify = require('../middleware/verify');
 const constant = require('../config/constant');
+const path = require('path');
 const Post = db.post;
 const User = db.user;
 const Comment = db.comment;
@@ -23,6 +24,7 @@ exports.getAll = async (req, res, next) => {
     try {
         const results = await Post.findAll({ include: ['user'] });
         return res.status(200).json(results);
+        // return res.sendFile(path.join(__dirname,'../public/home.html'));
     }
     catch (err) {
         res.status(400).json({ err });

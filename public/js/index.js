@@ -9,10 +9,8 @@ login = () => {
             formInput.push(value);
         }
         const login = Object.fromEntries(formInput);
-        console.log(login);
-
         try {
-            const url = 'users/connexion';
+            const url = 'api/users/connexion';
             const result = await fetch(url, {
                 method: 'POST',
                 headers: {
@@ -22,7 +20,8 @@ login = () => {
                 body: JSON.stringify(login)
             });
             if (result.ok) {
-                window.location.href = "/home.html";
+                return window.location.href = '/home.html';
+                //return await result.json();
             }
         }
         catch (err) {

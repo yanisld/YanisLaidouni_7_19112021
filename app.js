@@ -19,7 +19,7 @@ app.use(express.json());
 
 app.use(express.static('public'));
 
-app.use('/users', userRoutes);
-app.use('/posts', postRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/posts', postRoutes);
 
 module.exports = app;
