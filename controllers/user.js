@@ -43,6 +43,7 @@ exports.login = async (req, res, next) => {
             }
             else {
                 const token = jwt.sign({ id: user.id }, 'secretKey', { expiresIn: '12h' });
+                res.cookie('access_token', token, { maxAge: 12 * 3600000, httpOnly: true});
                 return res.status(200).json({ message: 'Utilisateur connecté !', token });
             }
         }
