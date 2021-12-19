@@ -55,6 +55,17 @@ exports.login = async (req, res, next) => {
     }
 };
 
+exports.logout = (req, res, next) => {
+    try {
+        res.clearCookie('access_token', { path: '/' });
+        return res.status(200).json({ message: 'Cookies supprimés !' });
+    }
+    catch (err) {
+        res.status(500).json({ err });
+        console.error(err);
+    }
+};
+
 exports.getAll = async (req, res, next) => {
     try {
         const results = await User.findAll({ include: ['role'] });

@@ -1,7 +1,12 @@
 /* HEADER */
 header {
+    display: flex;
+    justify-content: space-between;
     padding: 10px;
     margin: 0 0 50px 0;
+}
+#logout {
+    cursor: pointer;
 }
 /* MAIN */
 .main {

@@ -31,4 +31,21 @@ displayAllPosts = (posts) => {
         div.appendChild(content);
     }
 }
+logout = () => {
+    const logout = document.querySelector('#logout');
+    logout.addEventListener('click', async (event) => {
+        event.preventDefault();
+        try {
+            const url = 'api/users/deconnexion';
+            const result = await fetch(url);
+            if (result.ok) {
+                window.location.href = '/';
+            }
+        }
+        catch (err) {
+            console.error(err);
+        }
+    });
+}
 getAllPosts();
+logout();
