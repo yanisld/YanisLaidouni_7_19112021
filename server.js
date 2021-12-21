@@ -11,7 +11,7 @@ function normalizePort(val) {
     return port;
   }
   return false;
-};
+}
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
@@ -33,7 +33,7 @@ function errorHandler(error) {
     default:
       throw error;
   }
-};
+}
 
 const server = http.createServer(app);
 
