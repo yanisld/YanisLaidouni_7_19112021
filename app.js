@@ -1,6 +1,6 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
-const database = require('./config/database');
+//const database = require('./config/database');
 const userRoutes = require('./routes/user');
 const postRoutes = require('./routes/post');
 
