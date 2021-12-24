@@ -32,6 +32,8 @@ export default {
           const url = "http://localhost:3000/users/connexion";
           const result = await fetch(url, {
             method: "POST",
+            credentials: 'include',
+            mode: 'cors',
             headers: {
               Accept: "application/json",
               "Content-Type": "application/json; charset=utf-8",
