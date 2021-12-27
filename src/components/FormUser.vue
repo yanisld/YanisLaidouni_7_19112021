@@ -3,7 +3,7 @@
     <h1 class="intro">
       Partagez vos expériences et ressources avec vos collègues
     </h1>
-    <form id="login-form" class="login-form">
+    <form @submit.prevent="onSubmit" id="login-form" class="login-form">
       <input class="login-form_input" type="email" name="email" placeholder="Adresse Email" />
       <input class="login-form_input" type="text" name="password" placeholder="Mot de passe" />
       <input class="login-form_submit" id="login-form_submit" type="submit" value="Se connecter" />
@@ -17,10 +17,9 @@
 export default {
   name: "FormUser",
   methods: {
-    login: function () {
+    login() {
       const submit = document.querySelector("#login-form_submit");
-      submit.addEventListener("click", async (event) => {
-        event.preventDefault();
+      submit.addEventListener("click", async () => {
         const form = document.querySelector("#login-form");
         const formData = new FormData(form);
         let formInput = [];

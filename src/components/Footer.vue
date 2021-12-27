@@ -9,7 +9,7 @@
 export default {
   name: 'Footer',
   methods: {
-      year: function() {
+      year() {
           const date = new Date();
           return date.getFullYear();
       }

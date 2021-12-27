@@ -19,7 +19,7 @@ export default {
     Footer,
   },
   methods: {
-    getAllPosts: async function () {
+    async getAllPosts() {
       try {
         const url = '/posts/';
         const result = await fetch(url);
