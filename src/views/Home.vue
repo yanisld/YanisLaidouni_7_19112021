@@ -1,28 +1,20 @@
 <template>
-  <Header />
-  <main class="main">
-    <Post />
-  </main>
-  <Footer />
+  <Post />
 </template>
 
 <script>
-import Header from "./components/Header.vue";
-import Post from "./components/Post.vue";
-import Footer from "./components/Footer.vue";
+import Post from '../components/Post.vue';
 
 export default {
-  name: "Home",
+  name: 'Home',
   components: {
-    Header,
-    Post,
-    Footer,
+    Post
   },
   methods: {
     async getAllPosts() {
       try {
-        const url = '/posts/';
-        const result = await fetch(url);
+        const url = 'http://localhost:3000/posts';
+        const result = await fetch(url, {credentials: 'include'});
         if (result.ok) {
           const posts = await result.json();
           console.log(posts);

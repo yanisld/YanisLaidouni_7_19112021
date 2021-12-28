@@ -1,21 +1,19 @@
 <template>
   <Header />
   <main class="main">
-    <FormUser />
+    <router-view/>
   </main>
   <Footer />
 </template>
 
 <script>
 import Header from './components/Header.vue'
-import FormUser from './components/FormUser.vue'
 import Footer from './components/Footer.vue'
 
 export default {
   name: 'App',
   components: {
     Header,
-    FormUser,
     Footer
   }
 }

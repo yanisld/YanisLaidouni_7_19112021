@@ -4,18 +4,34 @@
       Partagez vos expériences et ressources avec vos collègues
     </h1>
     <form @submit.prevent="onSubmit" id="login-form" class="login-form">
-      <input class="login-form_input" type="email" name="email" placeholder="Adresse Email" />
-      <input class="login-form_input" type="text" name="password" placeholder="Mot de passe" />
-      <input class="login-form_submit" id="login-form_submit" type="submit" value="Se connecter" />
+      <input
+        class="login-form_input"
+        type="email"
+        name="email"
+        placeholder="Adresse Email"
+      />
+      <input
+        class="login-form_input"
+        type="text"
+        name="password"
+        placeholder="Mot de passe"
+      />
+      <input
+        class="login-form_submit"
+        id="login-form_submit"
+        type="submit"
+        value="Se connecter"
+      />
       <div class="login-form_separator"></div>
-      <a class="login-form_link" href="/inscription">S'inscrire</a>
+      <router-link class="login-form_link" v-on:click="login" to="/inscription">S'inscrire</router-link>
     </form>
   </div>
 </template>
 
 <script>
+import router from '../router/index';
 export default {
-  name: "FormUser",
+  name: 'FormLogin',
   methods: {
     login() {
       const submit = document.querySelector("#login-form_submit");
@@ -31,8 +47,8 @@ export default {
           const url = "http://localhost:3000/users/connexion";
           const result = await fetch(url, {
             method: "POST",
-            credentials: 'include',
-            mode: 'cors',
+            credentials: "include",
+            mode: "cors",
             headers: {
               Accept: "application/json",
               "Content-Type": "application/json; charset=utf-8",
@@ -40,13 +56,16 @@ export default {
             body: JSON.stringify(login),
           });
           if (result.ok) {
-            console.log("login ok !");
+            router.push({ name: 'home'});
           }
         } catch (err) {
           console.error(err);
         }
       });
     },
+    link() {
+      console.log('routage');
+    }
   },
   mounted() {
     this.login();
@@ -71,7 +90,7 @@ export default {
   background: #fff;
   padding: 20px;
   border-radius: 6px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.1);
   &_input {
     border-radius: 6px;
     font-size: 17px;
@@ -96,7 +115,7 @@ export default {
     border-radius: 6px;
     font-size: 17px;
     text-decoration: none;
-    color:#000;
+    color: #000;
     font-family: $bold-text;
     text-align: center;
     &:hover {
