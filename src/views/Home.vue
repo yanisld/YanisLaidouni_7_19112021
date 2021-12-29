@@ -1,31 +1,42 @@
 <template>
-  <Post />
+  <div class="post-list">
+    <Post v-for="(post, index) in posts" v-bind:key="index" 
+    :username="post.user.username"
+    :date="post.createdAt"
+    :title="post.title"
+    :content="post.content"></Post>
+  </div>
 </template>
 
 <script>
-import Post from '../components/Post.vue';
+import Post from "../components/Post.vue";
 
 export default {
-  name: 'Home',
+  name: "Home",
+  data() {
+    return {
+      posts: null
+    }
+  },
   components: {
-    Post
+    Post,
   },
   methods: {
     async getAllPosts() {
       try {
-        const url = 'http://localhost:3000/posts';
-        const result = await fetch(url, {credentials: 'include'});
+        const url = "http://localhost:3000/posts";
+        const result = await fetch(url, { credentials: "include" });
         if (result.ok) {
-          const posts = await result.json();
-          console.log(posts);
+          this.posts = await result.json();
+          console.log(this.posts);
         }
       } catch (err) {
         console.error(err);
       }
     },
   },
-  mounted() {
-      this.getAllPosts();
+  created() {
+    this.getAllPosts();
   },
 };
 </script>
