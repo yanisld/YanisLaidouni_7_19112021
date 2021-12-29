@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Home from '../views/Home.vue'
+import SinglePost from '../views/SinglePost.vue'
 
 const routes = [
   {
@@ -17,7 +18,14 @@ const routes = [
   {
     path: '/home',
     name: 'home',
-    component: Home
+    component: Home,
+    props: true
+  },
+  {
+    path: '/publication/:postId',
+    name: 'publication',
+    component: SinglePost,
+    props: true
   }
 ]
 

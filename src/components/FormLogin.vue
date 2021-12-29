@@ -23,7 +23,7 @@
         value="Se connecter"
       />
       <div class="login-form_separator"></div>
-      <router-link class="login-form_link" v-on:click="login" to="/inscription">S'inscrire</router-link>
+      <router-link class="login-form_link" to="/inscription">S'inscrire</router-link>
     </form>
   </div>
 </template>

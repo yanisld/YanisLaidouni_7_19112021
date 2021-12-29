@@ -2,9 +2,9 @@
   <div class="post-list">
     <Post v-for="(post, index) in posts" v-bind:key="index" 
     :username="post.user.username"
-    :date="post.createdAt"
     :title="post.title"
-    :content="post.content"></Post>
+    :content="post.content"
+    :id="post.id"></Post>
   </div>
 </template>
 
@@ -28,7 +28,6 @@ export default {
         const result = await fetch(url, { credentials: "include" });
         if (result.ok) {
           this.posts = await result.json();
-          console.log(this.posts);
         }
       } catch (err) {
         console.error(err);
