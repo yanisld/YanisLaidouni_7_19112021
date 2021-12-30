@@ -23,6 +23,7 @@ export default {
 body {
   font-family: $text;
   font-size: 16px;
+  color:$text-color;
 }
 .main {
   background: $light-grey;

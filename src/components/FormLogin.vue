@@ -106,8 +106,7 @@ export default {
     }
   }
   &_separator {
-    border: 1px solid $grey;
-    margin: 30px 0;
+    @include separator;
   }
   &_link {
     background: $grey;
