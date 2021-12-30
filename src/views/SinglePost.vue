@@ -3,6 +3,7 @@
     <Post
       v-if="post"
       :username="post.user.username"
+      :date="formatDate(post.createdAt)"
       :title="post.title"
       :content="post.content"
       :id="post.id"
@@ -31,7 +32,6 @@ export default {
     async getPost() {
       try {
         const url = "http://localhost:3000/posts/" + this.createRoute();
-        console.log(url);
         const result = await fetch(url, { credentials: "include" });
         if (result.ok) {
           this.post = await result.json();
@@ -40,6 +40,10 @@ export default {
         console.error(err);
       }
     },
+    formatDate(date){
+      const format = new Date(date);
+      return Intl.DateTimeFormat('fr-FR', {day: 'numeric', month: 'long', year: 'numeric'}).format(format)
+    }
   },
   created() {
     this.getPost();

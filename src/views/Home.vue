@@ -5,6 +5,7 @@
     </div>
     <Post v-for="(post, index) in posts" v-bind:key="index" 
     :username="post.user.username"
+    :date="formatDate(post.createdAt)"
     :title="post.title"
     :content="post.content"
     :id="post.id"></Post>
@@ -36,6 +37,10 @@ export default {
         console.error(err);
       }
     },
+    formatDate(date){
+      const format = new Date(date);
+      return Intl.DateTimeFormat('fr-FR', {day: 'numeric', month: 'long', year: 'numeric'}).format(format)
+    }
   },
   created() {
     this.getAllPosts();

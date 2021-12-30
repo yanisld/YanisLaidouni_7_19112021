@@ -13,7 +13,7 @@
 <script>
 export default {
   name: 'Post',
-  props: { username: String, date: Date, title: String, content: String, id: Number}
+  props: { username: String, date: String, title: String, content: String, id: Number}
 }
 </script>
 
