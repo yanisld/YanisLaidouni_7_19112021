@@ -1,7 +1,7 @@
 <template>
   <div class="post-list">
     <div class="add-post">
-      <h1 class="add-post_title">Créer une publication</h1>
+      <h1 class="add-post_title"><a @click="showModal=true">Créer une publication</a></h1>
     </div>
     <Post v-for="(post, index) in posts" v-bind:key="index" 
     :username="post.user.username"
@@ -10,20 +10,24 @@
     :content="post.content"
     :id="post.id"></Post>
   </div>
+  <ModalPost v-if="showModal" @close="showModal=false" />
 </template>
 
 <script>
 import Post from "../components/Post.vue";
+import ModalPost from "../components/ModalPost.vue";
 
 export default {
   name: "Home",
   data() {
     return {
-      posts: null
+      posts: null,
+      showModal: false
     }
   },
   components: {
     Post,
+    ModalPost
   },
   methods: {
     async getAllPosts() {
@@ -40,7 +44,7 @@ export default {
     formatDate(date){
       const format = new Date(date);
       return Intl.DateTimeFormat('fr-FR', {day: 'numeric', month: 'long', year: 'numeric'}).format(format)
-    }
+    },
   },
   created() {
     this.getAllPosts();
