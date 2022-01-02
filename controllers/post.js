@@ -21,7 +21,7 @@ exports.create = async (req, res, next) => {
 
 exports.getAll = async (req, res, next) => {
     try {
-        const results = await Post.findAll({ include: ['user'] });
+        const results = await Post.findAll({ include: ['user'], order: [['createdAt', 'DESC']] });
         return res.status(200).json(results);
     }
     catch (err) {

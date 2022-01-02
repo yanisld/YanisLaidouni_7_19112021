@@ -9,12 +9,14 @@
         type="email"
         name="email"
         placeholder="Adresse Email"
+        required
       />
       <input
         class="login-form_input"
-        type="text"
+        type="password"
         name="password"
         placeholder="Mot de passe"
+        required
       />
       <input
         class="login-form_submit"

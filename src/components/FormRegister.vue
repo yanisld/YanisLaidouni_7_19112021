@@ -9,18 +9,21 @@
         type="text"
         name="username"
         placeholder="Nom d'utilisateur"
+        required
       />
       <input
         class="register-form_input"
         type="email"
         name="email"
         placeholder="Adresse Email"
+        required
       />
       <input
         class="register-form_input"
-        type="text"
+        type="password"
         name="password"
         placeholder="Mot de passe"
+        required
       />
       <input
         class="register-form_submit"
