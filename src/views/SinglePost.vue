@@ -12,10 +12,11 @@
 </template>
 
 <script>
-import Post from "../components/Post.vue";
-
+import Post from '../components/Post.vue';
+import { mapState } from 'vuex';
+import { date, fetchGet } from "@/functions.js";
 export default {
-  name: "SinglePost",
+  name: 'SinglePost',
   components: {
     Post,
   },
@@ -25,24 +26,26 @@ export default {
       route: null,
     };
   },
+    computed: {
+    ...mapState({postRoute: 'postRoute'})
+  },
   methods: {
     createRoute() {
       return (this.route = this.$route.params.postId);
     },
     async getPost() {
-      try {
-        const url = "http://localhost:3000/posts/" + this.createRoute();
-        const result = await fetch(url, { credentials: "include" });
-        if (result.ok) {
-          this.post = await result.json();
-        }
-      } catch (err) {
-        console.error(err);
+      const route = this.postRoute + this.createRoute();
+      const fetch = await fetchGet(route);
+      if (fetch) {
+        this.post = fetch;
+      }
+      else {
+        console.error('Erreur fetch');
       }
     },
-    formatDate(date){
-      const format = new Date(date);
-      return Intl.DateTimeFormat('fr-FR', {day: 'numeric', month: 'long', year: 'numeric'}).format(format)
+    formatDate(newDate){
+      const formatedDate = date(newDate);
+      return formatedDate;
     }
   },
   created() {

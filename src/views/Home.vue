@@ -16,7 +16,8 @@
 <script>
 import Post from "../components/Post.vue";
 import ModalPost from "../components/ModalPost.vue";
-
+import { mapState } from 'vuex';
+import { date, fetchGet } from "@/functions.js";
 export default {
   name: "Home",
   data() {
@@ -29,21 +30,22 @@ export default {
     Post,
     ModalPost
   },
+  computed: {
+    ...mapState({postRoute: 'postRoute'})
+  },
   methods: {
     async getAllPosts() {
-      try {
-        const url = "http://localhost:3000/posts";
-        const result = await fetch(url, { credentials: "include" });
-        if (result.ok) {
-          this.posts = await result.json();
-        }
-      } catch (err) {
-        console.error(err);
+      const fetch = await fetchGet(this.postRoute);
+      if (fetch) {
+        this.posts = fetch;
+      }
+      else {
+        console.error('Erreur fetch');
       }
     },
-    formatDate(date){
-      const format = new Date(date);
-      return Intl.DateTimeFormat('fr-FR', {day: 'numeric', month: 'long', year: 'numeric'}).format(format)
+    formatDate(newDate){
+      const formatedDate = date(newDate);
+      return formatedDate;
     },
   },
   created() {

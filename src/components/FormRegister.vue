@@ -3,7 +3,7 @@
     <h1 class="intro">
       Partagez vos expériences et ressources avec vos collègues
     </h1>
-    <form @submit.prevent="onSubmit" id="register-form" class="register-form">
+    <form @submit.prevent="register" id="register-form" class="register-form">
       <input
         class="register-form_input"
         type="text"
@@ -36,43 +36,27 @@
 </template>
 
 <script>
-import router from '../router/index';
+import router from "../router/index";
+import { mapState } from "vuex";
+import { formData, fetchPost } from "@/functions.js";
 export default {
-  name: 'FormRegister',
-  methods: {
-    register() {
-      const submit = document.querySelector("#register-form_submit");
-      submit.addEventListener("click", async () => {
-        const form = document.querySelector("#register-form");
-        const formData = new FormData(form);
-        let formInput = [];
-        for (let value of formData.entries()) {
-          formInput.push(value);
-        }
-        const register = Object.fromEntries(formInput);
-        try {
-          const url = "http://localhost:3000/users/inscription";
-          const result = await fetch(url, {
-            method: "POST",
-            credentials: "include",
-            mode: "cors",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json; charset=utf-8",
-            },
-            body: JSON.stringify(register),
-          });
-          if (result.ok) {
-            router.push({ name: 'login'});
-          }
-        } catch (err) {
-          console.error(err);
-        }
-      });
-    },
+  name: "FormRegister",
+  computed: {
+    ...mapState({ userRoute: "userRoute" }),
   },
-  mounted() {
-    this.register();
+  methods: {
+    async register() {
+      const form = document.querySelector("#register-form");
+      const body = formData(form);
+      const route = this.userRoute + "inscription";
+      const fetch = await fetchPost(route, body);
+      const result = fetch;
+      if (result == true) {
+        router.push({ name: "login" });
+      } else {
+        console.error("Erreur fetch");
+      }
+    },
   },
 };
 </script>

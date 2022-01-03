@@ -3,7 +3,7 @@
     <h1 class="intro">
       Partagez vos expériences et ressources avec vos collègues
     </h1>
-    <form @submit.prevent="onSubmit" id="login-form" class="login-form">
+    <form @submit.prevent="login" id="login-form" class="login-form">
       <input
         class="login-form_input"
         type="email"
@@ -25,52 +25,36 @@
         value="Se connecter"
       />
       <div class="login-form_separator"></div>
-      <router-link class="login-form_link" to="/inscription">S'inscrire</router-link>
+      <router-link class="login-form_link" to="/inscription"
+        >S'inscrire</router-link
+      >
     </form>
   </div>
 </template>
 
 <script>
-import router from '../router/index';
+import router from "../router/index";
+import { mapState } from "vuex";
+import { formData, fetchPost } from "@/functions.js";
 export default {
-  name: 'FormLogin',
-  methods: {
-    login() {
-      const submit = document.querySelector("#login-form_submit");
-      submit.addEventListener("click", async () => {
-        const form = document.querySelector("#login-form");
-        const formData = new FormData(form);
-        let formInput = [];
-        for (let value of formData.entries()) {
-          formInput.push(value);
-        }
-        const login = Object.fromEntries(formInput);
-        try {
-          const url = "http://localhost:3000/users/connexion";
-          const result = await fetch(url, {
-            method: "POST",
-            credentials: "include",
-            mode: "cors",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json; charset=utf-8",
-            },
-            body: JSON.stringify(login),
-          });
-          if (result.ok) {
-            router.push({ name: 'home'});
-          }
-        } catch (err) {
-          console.error(err);
-        }
-      });
-    },
-    link() {
-      console.log('routage');
-    }
+  name: "FormLogin",
+  computed: {
+    ...mapState({ userRoute: "userRoute" }),
   },
-  mounted() {
-    this.login();
+  methods: {
+    async login() {
+      const form = document.querySelector("#login-form");
+      const body = formData(form);
+      const route = this.userRoute + "connexion";
+      const fetch = await fetchPost(route, body);
+      const result = fetch;
+      if (result == true) {
+        router.push({ name: "home" });
+      }
+      else {
+        console.error('Erreur fetch');
+      }
+    },
   },
 };
 </script>

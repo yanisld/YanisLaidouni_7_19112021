@@ -21,34 +21,24 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+import { formData, fetchPost } from "@/functions.js";
 export default {
   name: "ModalPost",
+    computed: {
+    ...mapState({ postRoute: "postRoute" }),
+  },
   methods: {
     async addPost() {
         const form = document.querySelector("#modal-post_form");
-        const formData = new FormData(form);
-        let formInput = [];
-        for (let value of formData.entries()) {
-          formInput.push(value);
+        const body = formData(form);
+        const fetch = await fetchPost(this.postRoute, body);
+        const result = fetch;
+        if (result == true) {
+          window.location.reload();
         }
-        const postDatas = Object.fromEntries(formInput);
-        try {
-          const url = "http://localhost:3000/posts/";
-          const result = await fetch(url, {
-            method: "POST",
-            credentials: "include",
-            mode: "cors",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json; charset=utf-8",
-            },
-            body: JSON.stringify(postDatas),
-          });
-          if (result.ok) {
-            window.location.reload();
-          }
-        } catch (err) {
-          console.error(err);
+        else {
+          console.error('Erreur fetch');
         }
     }
   }
