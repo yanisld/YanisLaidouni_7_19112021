@@ -11,3 +11,45 @@
   border: 1px solid $grey;
   margin: 30px 0;
 }
+@mixin modal {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.3s ease;
+}
+@mixin modalForm {
+  display: flex;
+    flex-direction: column;
+    width: 440px;
+    position: relative;
+    bottom: 200px;
+    margin: 0px auto;
+    padding: 20px 30px;
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+@mixin modalInput {
+    border-radius: 6px;
+      font-size: 17px;
+      padding: 14px 16px;
+      margin: 8px 0;
+      border: 1px solid $grey;
+}
+@mixin modalClose {
+  background: $grey;
+      font-family: $bold-text;
+      margin: 5px 0 0 0;
+      padding: 14px 0;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+}

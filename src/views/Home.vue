@@ -6,41 +6,84 @@
     <Post v-for="(post, index) in posts" v-bind:key="index" 
     :username="post.user.username"
     :date="formatDate(post.createdAt)"
+    @update="showModalUpdate=true;postId=post.id;getPost(post.id)"
+    @delete="deletePost(post.id)"
     :title="post.title"
     :content="post.content"
     :id="post.id"></Post>
   </div>
   <ModalPost v-if="showModal" @close="showModal=false" />
+  <ModalUpdate v-if="showModalUpdate" @submit.prevent="updatePost(postId)" @close="showModalUpdate=false" />
 </template>
 
 <script>
 import Post from "../components/Post.vue";
 import ModalPost from "../components/ModalPost.vue";
+import ModalUpdate from "../components/ModalUpdate.vue";
 import { mapState } from 'vuex';
-import { date, fetchGet } from "@/functions.js";
+import { date, fetchGet, formData, fetchUpdate, fetchDelete, fetchGetOne } from "@/functions.js";
 export default {
   name: "Home",
   data() {
     return {
       posts: null,
-      showModal: false
+      showModal: false,
+      showModalUpdate: false,
+      postId: null
     }
   },
   components: {
     Post,
-    ModalPost
+    ModalPost,
+    ModalUpdate
   },
   computed: {
     ...mapState({postRoute: 'postRoute'})
   },
   methods: {
     async getAllPosts() {
-      const fetch = await fetchGet(this.postRoute);
-      if (fetch) {
-        this.posts = fetch;
+      const data = await fetchGet(this.postRoute);
+      if (data) {
+        this.posts = data;
       }
       else {
         console.error('Erreur fetch');
+      }
+    },
+    async getPost(id){
+      const route = this.postRoute + id;
+      const data = await fetchGetOne(route);
+      let title = document.getElementById('modal-post_form_input_title');
+      let text = document.getElementById('modal-post_form_input_text');
+      if (data) {
+        title.value = data.title;
+        text.value = data.content;
+      }
+      else {
+        console.error('Erreur fetch');
+      }
+    },
+    async updatePost(id) {
+        const form = document.querySelector("#modal-post_update-form");
+        const body = formData(form);
+        const route = this.postRoute + id;
+        const fetch = await fetchUpdate(route, body);
+        const result = fetch;
+        console.log(result)
+        if (result == true) {
+          window.location.reload();
+        }
+        else {
+          console.error('Erreur fetch');
+        }
+    },
+    async deletePost(id) {
+      try {
+        const route = this.postRoute + id;
+        await fetchDelete(route);
+        window.location.reload();
+      } catch(err) {
+        console.error(err);
       }
     },
     formatDate(newDate){

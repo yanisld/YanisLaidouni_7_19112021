@@ -1,18 +1,18 @@
 <template>
   <div class="modal-post">
-    <form id="modal-post_form" class="modal-post_form" @submit.prevent="addPost">
+    <form id="modal-post_update-form" class="modal-post_form">
       <input
+        id="modal-post_form_input_title"
         class="modal-post_form_input"
         type="text"
         name="title"
-        placeholder="Titre"
       />
       <textarea
+        id="modal-post_form_input_text"
         class="modal-post_form_input"
         name="content"
-        placeholder="Texte"
       />
-      <input type="submit" class="modal-post_form_submit" value="Publier" />
+      <input type="submit" class="modal-post_form_submit" value="Modifier" />
       <button class="modal-post_form_close" @click="$emit('close')">
         Annuler
       </button>
@@ -21,27 +21,8 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { formData, fetchPost } from "@/functions.js";
 export default {
-  name: "ModalPost",
-    computed: {
-    ...mapState({ postRoute: "postRoute" }),
-  },
-  methods: {
-    async addPost() {
-        const form = document.querySelector("#modal-post_form");
-        const body = formData(form);
-        const fetch = await fetchPost(this.postRoute, body);
-        const result = fetch;
-        if (result == true) {
-          window.location.reload();
-        }
-        else {
-          console.error('Erreur fetch');
-        }
-    }
-  }
+  name: "ModalUpdate",
 };
 </script>
 
