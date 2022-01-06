@@ -43,18 +43,6 @@ export const fetchGet = async (route) => {
       }
 }
 
-export const fetchGetOne = async (route) => {
-    try {
-        const data = await fetch(route, { credentials: 'include' });
-        const result = await data.json();
-        if (result) {
-          return result;
-        }
-        } catch (err) {
-        console.error(err);
-      }
-}
-
 export const fetchUpdate = async (route, body) => {
     try {
         let result = false;

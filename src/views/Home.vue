@@ -6,14 +6,14 @@
     <Post v-for="(post, index) in posts" v-bind:key="index" 
     :username="post.user.username"
     :date="formatDate(post.createdAt)"
-    @update="showModalUpdate=true;postId=post.id;getPost(post.id)"
+    @update="showModalUpdate=true;IdPost=post.id;getPostContent(post.id)"
     @delete="deletePost(post.id)"
     :title="post.title"
     :content="post.content"
     :id="post.id"></Post>
   </div>
   <ModalPost v-if="showModal" @close="showModal=false" />
-  <ModalUpdate v-if="showModalUpdate" @submit.prevent="updatePost(postId)" @close="showModalUpdate=false" />
+  <ModalUpdate v-if="showModalUpdate" @submit.prevent="updatePost(IdPost)" @close="showModalUpdate=false" />
 </template>
 
 <script>
@@ -21,7 +21,7 @@ import Post from "../components/Post.vue";
 import ModalPost from "../components/ModalPost.vue";
 import ModalUpdate from "../components/ModalUpdate.vue";
 import { mapState } from 'vuex';
-import { date, fetchGet, formData, fetchUpdate, fetchDelete, fetchGetOne } from "@/functions.js";
+import { date, fetchGet, formData, fetchUpdate, fetchDelete } from "@/functions.js";
 export default {
   name: "Home",
   data() {
@@ -29,7 +29,7 @@ export default {
       posts: null,
       showModal: false,
       showModalUpdate: false,
-      postId: null
+      IdPost: null
     }
   },
   components: {
@@ -50,9 +50,9 @@ export default {
         console.error('Erreur fetch');
       }
     },
-    async getPost(id){
+    async getPostContent(id){
       const route = this.postRoute + id;
-      const data = await fetchGetOne(route);
+      const data = await fetchGet(route);
       let title = document.getElementById('modal-post_form_input_title');
       let text = document.getElementById('modal-post_form_input_text');
       if (data) {

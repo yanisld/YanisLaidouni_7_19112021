@@ -35,7 +35,8 @@ export default {
         const fetch = await fetchPost(this.postRoute, body);
         const result = fetch;
         if (result == true) {
-          window.location.reload();
+          console.log('hello')
+          //window.location.reload();
         }
         else {
           console.error('Erreur fetch');
