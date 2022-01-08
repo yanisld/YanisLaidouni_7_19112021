@@ -2,6 +2,7 @@
   <div class="single-post">
     <Post
       v-if="post"
+      :idUser="post.user.id"
       :username="post.user.username"
       :date="formatDate(post.createdAt)"
       @update="showModal=true;IdPost=post.id;getPostContent(post.id)"
@@ -125,16 +126,8 @@ export default {
         const form = document.querySelector("#add-comment-form");
         const body = formData(form);
         const route = this.postRoute + this.routeId + '/comment';
-        console.log(body);
-        const fetch = await fetchPost(route, body);
-        const result = fetch;
-        if (result == true) {
-          console.log('commentaire effectué')
-          window.location.reload();
-        }
-        else {
-          console.error('Erreur fetch');
-        }
+        await fetchPost(route, body);
+        window.location.reload();
     },
     async getCommentContent(id){
       const route = this.postRoute + this.routeId + '/comment/' + id;

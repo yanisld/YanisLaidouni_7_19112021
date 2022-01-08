@@ -46,14 +46,8 @@ export default {
       const form = document.querySelector("#login-form");
       const body = formData(form);
       const route = this.userRoute + "connexion";
-      const fetch = await fetchPost(route, body);
-      const result = fetch;
-      if (result == true) {
-        router.push({ name: "home" });
-      }
-      else {
-        console.error('Erreur fetch');
-      }
+      await fetchPost(route, body);
+      router.push({ name: "home" });
     },
   },
 };

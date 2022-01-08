@@ -1,7 +1,7 @@
 <template>
   <div class="post">
     <div class="post_top">
-      <div class="post_username">{{ username }}</div>
+      <div class="post_username"><router-link class="post_link" :to="{ name: 'utilisateur', params: { userId: idUser } }" >{{ username }}</router-link></div>
       <div class="post_date">{{ date }}</div>
       <i @click="showEdit == false ? (showEdit = true) : (showEdit = false)" class="fas fa-plus post_edit"></i>
       <div class="edit" v-if="showEdit">
@@ -30,6 +30,7 @@ export default {
     title: String,
     content: String,
     id: Number,
+    idUser: Number
   },
   data() {
     return {

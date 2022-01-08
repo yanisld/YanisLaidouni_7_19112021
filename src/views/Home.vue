@@ -4,6 +4,7 @@
       <h1 class="add-post_title"><a @click="showModal=true">Créer une publication</a></h1>
     </div>
     <Post v-for="(post, index) in posts" v-bind:key="index" 
+    :idUser="post.user.id"
     :username="post.user.username"
     :date="formatDate(post.createdAt)"
     @update="showModalUpdate=true;IdPost=post.id;getPostContent(post.id)"

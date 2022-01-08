@@ -32,15 +32,8 @@ export default {
     async addPost() {
         const form = document.querySelector("#modal-post_form");
         const body = formData(form);
-        const fetch = await fetchPost(this.postRoute, body);
-        const result = fetch;
-        if (result == true) {
-          console.log('hello')
-          //window.location.reload();
-        }
-        else {
-          console.error('Erreur fetch');
-        }
+        await fetchPost(this.postRoute, body);
+        window.location.reload();
     }
   }
 };

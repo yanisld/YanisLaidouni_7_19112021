@@ -44,7 +44,8 @@ exports.login = async (req, res, next) => {
             else {
                 const token = jwt.sign({ id: user.id }, 'secretKey', { expiresIn: '12h' });
                 res.cookie('access_token', token, { maxAge: 12 * 3600000, httpOnly: true, sameSite: 'Lax'});
-                return res.status(200).json({ message: 'Utilisateur connecté !', token });
+                const username = user.username;
+                return res.status(200).json({ message: 'Utilisateur connecté !', token, username });
             }
         }
     }

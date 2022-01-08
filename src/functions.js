@@ -8,9 +8,17 @@ export const formData = (form) => {
     return body;
 }
 
+const storeUsername = (key, value, ttl) => {
+    const now = new Date();
+    const item = {
+		value: value,
+		expiry: now.getTime() + (ttl * 1000),
+	}
+    localStorage.setItem(key, JSON.stringify(item))
+}
+
 export const fetchPost = async (route, body) => {
     try {
-        let result = false;
         const datas = await fetch(route, {
             method: 'POST',
             credentials: 'include',
@@ -22,8 +30,10 @@ export const fetchPost = async (route, body) => {
             body: JSON.stringify(body),
         });
         if (datas.ok) {
-            result = true;
-            return result;
+            const response = await datas.json();
+            const username = response.username;
+            storeUsername('name', username, 43200);
+            return username;
         }
     }
     catch (err) {

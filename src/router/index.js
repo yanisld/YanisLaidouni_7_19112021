@@ -3,6 +3,7 @@ import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Home from '../views/Home.vue'
 import SinglePost from '../views/SinglePost.vue'
+import User from '../views/User.vue'
 
 const routes = [
   {
@@ -25,6 +26,12 @@ const routes = [
     path: '/publication/:postId',
     name: 'publication',
     component: SinglePost,
+    props: true
+  },
+  {
+    path: '/utilisateur/:userId',
+    name: 'utilisateur',
+    component: User,
     props: true
   }
 ]
