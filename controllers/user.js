@@ -103,6 +103,9 @@ exports.delete = async (req, res, next) => {
         const userId = verify.verifyUser(req, res, next);
         const user = await User.findOne({ include: ['role'], where: { id: userId } });
         if (userId == req.params.id || user.role.dataValues.name == constant.admin) {
+            if (userId == req.params.id) {
+                res.clearCookie('access_token');
+            }
             await Like.destroy({ where: { user_id: req.params.id } });
             await Comment.destroy({ where: { user_id: req.params.id } });
             await Post.destroy({ where: { user_id: req.params.id } });
