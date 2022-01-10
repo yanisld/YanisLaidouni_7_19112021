@@ -55,6 +55,17 @@ exports.login = async (req, res, next) => {
     }
 };
 
+exports.logout = async (req, res, next) => {
+    try {
+        res.clearCookie('access_token');
+        return res.status(200).json('Utilisateur déconnecté');
+    }
+    catch (err) {
+        res.status(400).json({ err });
+        console.error(err);
+    }
+};
+
 exports.getAll = async (req, res, next) => {
     try {
         const results = await User.findAll({ include: ['role'] });

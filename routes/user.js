@@ -5,6 +5,7 @@ const auth = require('../middleware/auth');
 
 router.post('/inscription', userCtrl.create);
 router.post('/connexion', userCtrl.login);
+router.get('/deconnexion', auth, userCtrl.logout);
 router.get('/', auth, userCtrl.getAll);
 router.get('/:id', auth, userCtrl.get);
 router.put('/:id', auth, userCtrl.update);

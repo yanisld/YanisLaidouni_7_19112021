@@ -1,33 +1,29 @@
 <template>
   <div>
-      <div>{{profileName}}</div>
+    <details>
+      <summary>{{ username }}</summary>
+      <div @click="logout()">Déconnexion</div>
+    </details>
   </div>
 </template>
 
 <script>
+import router from '@/router/index'
+import { mapState } from 'vuex'
+import { fetchGet } from "@/functions.js"
 export default {
   name: 'Profil',
-  data(){
-    return {
-      profileName: ''
-    }
+  props: ['username'],
+   computed: {
+    ...mapState({userRoute: 'userRoute'})
   },
   methods: {
-    displayUsername(){
-      const itemStr = localStorage.getItem('name');
-      if (!itemStr) { return null }
-      const item = JSON.parse(itemStr);
-      const now = new Date();
-      if (now.getTime() > item.expiry) {
-        localStorage.removeItem('name');
-        return null
-      }
-      this.profileName = item.value;
-      return this.profileName
+    async logout() {
+      const route = this.userRoute + '/deconnexion';
+      localStorage.removeItem('name');
+      await fetchGet(route);
+      router.push({ name: 'login' });
     }
-  },
-  created() {
-    this.displayUsername();
   }
 }
 </script>

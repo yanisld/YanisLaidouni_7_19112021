@@ -1,7 +1,7 @@
 <template>
   <header class="header">
       <img src="../assets/images/groupomania-logo-rouge.png" alt="logo groupomania">
-      <Profil />
+      <Profil :username="displayUsername()" />
   </header>
 </template>
 
@@ -12,6 +12,19 @@ export default {
   components: {
     Profil
   },
+  methods: {
+    displayUsername(){
+      const itemStr = localStorage.getItem('name');
+      if (!itemStr) { return null }
+      const item = JSON.parse(itemStr);
+      const now = new Date();
+      if (now.getTime() > item.expiry) {
+        localStorage.removeItem('name');
+        return null
+      }
+      return item.value;
+    }
+  }
 }
 </script>
 
