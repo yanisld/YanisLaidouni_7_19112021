@@ -10,13 +10,14 @@
         <summary>Modifier le mot de passe</summary>
           <form id="user_details_password" @submit.prevent="updatePassword"><input type="password" name="password"><button type="submit">Modifier</button></form>
       </details>
+      <button @click="logout()">Déconnexion</button>
       <button @click="deleteUser(routeId)">Supprimer mon compte</button>
   </div>
 </template>
 
 <script>
 import router from "../router/index";
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import { formData, fetchGet, fetchDelete, fetchUpdate } from '@/functions.js';
 export default {
   name: 'UserDetails',
@@ -31,6 +32,7 @@ export default {
     ...mapState({userRoute: 'userRoute'})
   },
   methods: {
+    ...mapActions(['forceRerender']),
     createRoute() {
       return (this.routeId = this.$route.params.userId);
     },
@@ -84,6 +86,13 @@ export default {
         else {
           console.error('Erreur fetch');
         }
+    },
+    async logout() {
+      const route = this.userRoute + '/deconnexion';
+      localStorage.removeItem('name');
+      await fetchGet(route);
+      this.forceRerender();
+      router.push({ name: 'login' });
     },
     async deleteUser(id) {
       try {

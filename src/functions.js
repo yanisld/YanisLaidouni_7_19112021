@@ -31,9 +31,9 @@ export const fetchPost = async (route, body) => {
         });
         if (datas.ok) {
             const response = await datas.json();
-            const username = response.username;
-            storeUsername('name', username, 43200);
-            return username;
+            const user = {username: response.username, id: response.id}
+            storeUsername('name', user, 43200);
+            return user;
         }
     }
     catch (err) {

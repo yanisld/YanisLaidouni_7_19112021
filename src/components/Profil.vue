@@ -1,28 +1,21 @@
 <template>
   <div>
     <details>
-      <summary>{{ username }}</summary>
-      <div @click="logout()">Déconnexion</div>
+      <summary><router-link class="post_link" :to="{ name: 'utilisateur', params: { userId: getUserId() } }" >{{ username }}</router-link></summary>
     </details>
   </div>
 </template>
 
 <script>
-import router from '@/router/index'
-import { mapState } from 'vuex'
-import { fetchGet } from "@/functions.js"
 export default {
   name: 'Profil',
   props: ['username'],
-   computed: {
-    ...mapState({userRoute: 'userRoute'})
-  },
   methods: {
-    async logout() {
-      const route = this.userRoute + '/deconnexion';
-      localStorage.removeItem('name');
-      await fetchGet(route);
-      router.push({ name: 'login' });
+    getUserId() {
+      const itemStr = localStorage.getItem('name');
+      if (!itemStr) { return null }
+      const item = JSON.parse(itemStr);
+      return item.value.id;
     }
   }
 }

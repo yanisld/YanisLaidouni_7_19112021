@@ -34,7 +34,7 @@
 
 <script>
 import router from "../router/index";
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 import { formData, fetchPost } from "@/functions.js";
 export default {
   name: "FormLogin",
@@ -42,11 +42,13 @@ export default {
     ...mapState({ userRoute: "userRoute" }),
   },
   methods: {
+    ...mapActions(['forceRerender']),
     async login() {
       const form = document.querySelector("#login-form");
       const body = formData(form);
       const route = this.userRoute + "connexion";
       await fetchPost(route, body);
+      this.forceRerender();
       router.push({ name: "home" });
     },
   },
