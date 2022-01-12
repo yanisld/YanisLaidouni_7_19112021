@@ -1,13 +1,13 @@
 <template>
   <header class="header">
       <img src="../assets/images/groupomania-logo-rouge.png" alt="logo groupomania">
-      <Profil :username="displayUsername()" :key="componentKey" v-if="isLogged()" />
+      <Profil :username="displayUsername()" :key="componentKey" />
   </header>
 </template>
 
 <script>
 import Profil from '@/components/Profil.vue'
-import { mapState, mapActions } from 'vuex'
+import { mapState } from 'vuex'
 export default {
   name: 'Header',
   data() {
@@ -22,7 +22,6 @@ export default {
         ...mapState(['componentKey'])
   },
   methods: {
-    ...mapActions(['isLogged']),
     displayUsername(){
       const itemStr = localStorage.getItem('name');
       if (!itemStr) { return null }
@@ -41,7 +40,8 @@ export default {
 <style scoped lang="scss">
 .header {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
+    align-items: center;
     position: relative;
     z-index: 2;
     box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.175);

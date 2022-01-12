@@ -1,8 +1,7 @@
 <template>
-  <div>
-    <details>
-      <summary><router-link class="post_link" :to="{ name: 'utilisateur', params: { userId: getUserId() } }" >{{ username }}</router-link></summary>
-    </details>
+  <div class="profile">
+    <router-link class="profile_link" :to="{ name: 'utilisateur', params: { userId: getUserId() } }" >{{ username }}</router-link>
+    <i class="fas fa-user-circle fa-2x profile_img"></i>
   </div>
 </template>
 
@@ -13,7 +12,7 @@ export default {
   methods: {
     getUserId() {
       const itemStr = localStorage.getItem('name');
-      if (!itemStr) { return null }
+      if (!itemStr) { return 0 }
       const item = JSON.parse(itemStr);
       return item.value.id;
     }
@@ -22,5 +21,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.profile {
+  display: flex;
+  align-items: center;
+  &_link {
+    font-family: $bold-text;
+    text-decoration: none;
+    color: $text-color;
+  }
+  &_img {
+    margin: 0 0 0 5px;
+    color: $grey;
+  }
+}
 
 </style>

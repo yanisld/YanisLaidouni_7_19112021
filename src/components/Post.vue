@@ -1,23 +1,24 @@
 <template>
   <div class="post">
     <div class="post_top">
-      <div class="post_username"><router-link class="post_link" :to="{ name: 'utilisateur', params: { userId: idUser } }" >{{ username }}</router-link></div>
-      <div class="post_date">{{ date }}</div>
-      <i @click="showEdit == false ? (showEdit = true) : (showEdit = false)" class="fas fa-plus post_edit"></i>
-      <div class="edit" v-if="showEdit">
-        <div class="edit_update" @click="$emit('update')">
-          <div><i class="fas fa-pen"></i></div>
-          <div>Modifier</div>
-        </div>
-        <div class="edit_delete" @click="$emit('delete')">
-          <div><i class="fas fa-trash-alt"></i></div>
-          <div>Supprimer</div>
-        </div>
+      <div class="post_top_intro">
+        <div class="post_username"><router-link class="post_username_link" :to="{ name: 'utilisateur', params: { userId: idUser } }" >{{ username }}</router-link></div>
+        <span>&nbsp;-&nbsp;</span>
+        <div class="post_date">{{ date }}</div>
+      </div>
+      <div>
+        <i @click="showEdit == false ? (showEdit = true) : (showEdit = false)" class="fas fa-ellipsis-h post_edit fa-2x"></i>
+        <ul class="post_edit_list" v-if="showEdit">
+          <li class="post_edit_list_item" @click="$emit('update')"><i class="fas fa-pen post_edit_list_item_icon"></i>Modifier</li>
+          <li class="post_edit_list_item" @click="$emit('delete')"><i class="fas fa-trash-alt post_edit_list_item_icon"></i>Supprimer</li>
+       </ul>
       </div>
     </div>
     <h2 class="post_title">{{ title }}</h2>
     <div class="post_content">{{ content }}</div>
-    <router-link class="post_link" :to="{ name: 'publication', params: { postId: id } }" >Voir plus</router-link>
+    <div class="post_bottom">
+      <router-link class="post_comment" :to="{ name: 'publication', params: { postId: id } }" ><i class="far fa-comment"></i> Commenter</router-link>
+    </div>
   </div>
 </template>
 
@@ -48,16 +49,48 @@ export default {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1);
   margin: 0 0 15px 0;
   &_top {
-    margin: 0 0 10px 0;
+    display: flex;
+    justify-content: space-between;
+    &_intro {
+      display: flex;
+    }
   }
   &_username {
     font-family: $bold-text;
+    &_link {
+      text-decoration: none;
+      color: $text-color;
+    }
+  }
+  &_date {
+    font-size: 14px;
   }
   &_edit {
     color: $grey;
     cursor: pointer;
     &:hover {
       color: darken($grey, 10%);
+    }
+    &_list {
+      width: 150px;
+      text-align: center;
+      position: absolute;
+      background: #fff;
+      padding: 0;
+      margin: 0;
+      transform: translate(32px, -6px) translate(-100%);
+      border: 1px solid $grey;
+      border-radius: 6px;
+      &_item {
+        margin: 0 auto;
+        cursor: pointer;
+        list-style: none;
+        padding: 10px 0;
+        border-bottom: 1px solid $grey;
+        &_icon {
+          margin: 0 5px 0 0;
+        }
+      }
     }
   }
   &_title {
@@ -68,6 +101,16 @@ export default {
   &_content {
     padding: 10px 0 15px 0;
     border-bottom: 1px solid $grey;
+  }
+  &_bottom {
+    padding: 8px 15px 0;
+  }
+  &_comment {
+    text-decoration: none;
+    color: $dark-grey;
+    &:hover {
+      color: darken($dark-grey, 10%);
+    }
   }
 }
 </style>
