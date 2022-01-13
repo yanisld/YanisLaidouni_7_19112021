@@ -1,11 +1,14 @@
 <template>
   <header class="header">
-      <img src="../assets/images/groupomania-logo-rouge.png" alt="logo groupomania">
-      <Profil :username="displayUsername()" :key="componentKey" />
+    <div>
+      <router-link @click="homeLink()" to="/home"><img src="../assets/images/groupomania-logo-rouge.png" alt="logo groupomania"></router-link>
+    </div>
+    <Profil :username="displayUsername()" :key="componentKey" />
   </header>
 </template>
 
 <script>
+import router from '../router/index';
 import Profil from '@/components/Profil.vue'
 import { mapState } from 'vuex'
 export default {
@@ -33,6 +36,12 @@ export default {
       }
       return item.value.username;
     },
+    homeLink(){
+      if (localStorage.getItem('name')){
+        router.push({ name: 'home' });
+      }
+      else { router.push({ name: 'login' }); }
+    }
   }
 }
 </script>

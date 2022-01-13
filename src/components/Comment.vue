@@ -2,7 +2,7 @@
   <div class="comment">
     <div class="comment_top">
       <div class="comment_top_intro">
-        <div class="comment_username">{{ username }}</div>
+        <div class="comment_username"><router-link class="comment_username_link" :to="{ name: 'utilisateur', params: { userId: idUser } }" >{{ username }}</router-link></div>
         <span>&nbsp;-&nbsp;</span>
         <div class="comment_date">{{ date }}</div>
       </div>
@@ -30,6 +30,7 @@ export default {
     username: String,
     date: String,
     content: String,
+    idUser: Number
   },
 };
 </script>

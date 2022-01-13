@@ -20,6 +20,7 @@
       </div>
       <Comment
         v-for="(comment, index) in comments" v-bind:key="index"
+        :idUser="comment.user.id"
         :username="comment.user.username"
         :date="formatDate(comment.createdAt)"
         @delete="deleteComment(comment.id)"
