@@ -6,11 +6,13 @@
         type="text"
         name="title"
         placeholder="Titre"
+        required
       />
       <textarea
         class="modal-post_form_input"
         name="content"
         placeholder="Texte"
+        required
       />
       <input type="submit" class="modal-post_form_submit" value="Publier" />
       <button class="modal-post_form_close" @click="$emit('close')">

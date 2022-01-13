@@ -49,8 +49,10 @@ export default {
       const form = document.querySelector("#register-form");
       const body = formData(form);
       const route = this.userRoute + "inscription";
-      await fetchPost(route, body);
-      router.push({ name: "login" });
+      const result = await fetchPost(route, body);
+      if (result) {
+        router.push({ name: "login" });
+      }
     },
   },
 };

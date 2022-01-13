@@ -18,6 +18,7 @@
         placeholder="Mot de passe"
         required
       />
+      <div v-if="auth" class="login-form_feedback"><span>Indentifiant ou mot de passe incorrect</span></div>
       <input
         class="login-form_submit"
         id="login-form_submit"
@@ -38,6 +39,11 @@ import { mapState, mapActions } from "vuex";
 import { formData, fetchPost } from "@/functions.js";
 export default {
   name: "FormLogin",
+  data() {
+    return {
+      auth: false
+    }
+  },
   computed: {
     ...mapState({ userRoute: "userRoute" }),
   },
@@ -47,9 +53,15 @@ export default {
       const form = document.querySelector("#login-form");
       const body = formData(form);
       const route = this.userRoute + "connexion";
-      await fetchPost(route, body);
-      this.forceRerender();
-      router.push({ name: "home" });
+      const result = await fetchPost(route, body);
+      if(result){
+        this.forceRerender();
+        router.push({ name: "home" });
+      }
+      else {
+        this.auth = true
+      }
+      
     },
   },
 };
@@ -79,6 +91,10 @@ export default {
     padding: 14px 16px;
     margin: 8px 0;
     border: 1px solid $grey;
+  }
+  &_feedback {
+    text-align: center;
+    color: $primary-color;
   }
   &_submit {
     @include button;

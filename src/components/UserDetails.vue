@@ -1,15 +1,15 @@
 <template>
   <div class="user_details">
       <ul class="user_details_list">
-          <li class="user_details_list_item"><form id="user_details_username" @submit.prevent="updateUsername"><input type="text" id="user_details_username_input" name="username" />
+          <li class="user_details_list_item"><form id="user_details_username" @submit.prevent="updateUsername"><input type="text" id="user_details_username_input" name="username" required />
           <button type="submit" class="user_details_btn">Modifier</button></form></li>
-          <li class="user_details_list_item"><form id="user_details_email" @submit.prevent="updateEmail"><input type="text" name="email" id="user_details_email_input" />
+          <li class="user_details_list_item"><form id="user_details_email" @submit.prevent="updateEmail"><input type="text" name="email" id="user_details_email_input" required />
           <button type="submit" class="user_details_btn">Modifier</button></form></li>
       </ul>
       <details class="user_details_password">
         <summary class="user_details_password_summary">Modifier le mot de passe</summary>
           <form id="user_details_password" @submit.prevent="updatePassword">
-            <input type="password" name="password" class="user_details_password_input">
+            <input type="password" name="password" class="user_details_password_input" required />
             <button type="submit" class="user_details_password_btn">Modifier</button>
           </form>
       </details>

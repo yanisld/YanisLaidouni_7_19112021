@@ -5,6 +5,7 @@
         id="modal-comment_form_input_text"
         class="modal-comment_form_input"
         name="content"
+        required
       />
       <input type="submit" class="modal-comment_form_submit" value="Modifier" />
       <button class="modal-comment_form_close" @click="$emit('close')">

@@ -28,8 +28,8 @@
         :content="comment.content"
       />
     </div>
-    <ModalUpdate v-if="showModal" @submit.prevent="updatePost(IdPost)" />
-    <ModalComment v-if="showModalComment" @submit.prevent="updateComment(commentId)" />
+    <ModalUpdate v-if="showModal" @submit.prevent="updatePost(IdPost)" @close="showModal=false" />
+    <ModalComment v-if="showModalComment" @submit.prevent="updateComment(commentId)" @close="showModalComment=false" />
   </div>
 </template>
 
