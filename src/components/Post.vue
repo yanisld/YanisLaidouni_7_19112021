@@ -16,7 +16,7 @@
     </div>
     <h2 class="post_title">{{ title }}</h2>
     <div class="post_content">{{ content }}</div>
-    <div class="post_bottom">
+    <div v-if="displayCommentLink()" class="post_bottom">
       <router-link class="post_comment" :to="{ name: 'publication', params: { postId: id } }" ><i class="far fa-comment"></i> Commenter</router-link>
     </div>
   </div>
@@ -38,6 +38,16 @@ export default {
       showEdit: false,
     };
   },
+  methods: {
+    displayCommentLink() {
+      let display = false
+      if(this.$route.name == 'home') {
+        display = true
+        return display
+      }
+      else { return display}
+    }
+  }
 };
 </script>
 

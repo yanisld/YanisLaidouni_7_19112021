@@ -52,6 +52,10 @@ export default {
   }
   &_username {
     font-family: $bold-text;
+    &_link {
+      text-decoration: none;
+      color:$text-color;
+    }
   }
   &_date {
     font-size:14px;
