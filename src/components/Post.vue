@@ -51,6 +51,7 @@ export default {
   &_top {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     &_intro {
       display: flex;
     }

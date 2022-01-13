@@ -13,9 +13,9 @@
     />
     <div class="comments">
       <div class="add-comment">
-        <form id="add-comment-form" @submit.prevent="addComment">
-          <input type="text" name="content" class="add-comment_input" placeholder="Commentaire" required>
-          <button type="submit">Commenter</button>
+        <form id="add-comment-form" class="add-comment_form" @submit.prevent="addComment">
+          <input type="text" name="content" class="add-comment_form_input" placeholder="Commentaire" required>
+          <button type="submit" class="add-comment_form_btn">Commenter</button>
         </form>
       </div>
       <Comment
@@ -181,5 +181,25 @@ export default {
   margin: 0 auto;
   max-width: 640px;
   padding: 50px 0;
+}
+.add-comment {
+  background: #fff;
+  border-radius: 6px;
+  padding:15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 0 0 15px 0;
+  &_form {
+    display: flex;
+    flex-direction: column;
+    &_input {
+      @include modalInput
+    }
+    &_btn {
+      @include button;
+      &:hover {
+      background-color: darken($primary-color, 10%);
+      }
+    }
+  }
 }
 </style>
