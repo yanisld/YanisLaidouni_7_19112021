@@ -3,7 +3,7 @@
     <div>
       <router-link @click="homeLink()" to="/home"><img src="../assets/images/groupomania-logo-rouge.png" alt="logo groupomania"></router-link>
     </div>
-    <Profil :username="displayUsername()" :key="componentKey" />
+    <Profil v-if="displayProfile()" :username="displayUsername()" :key="componentKey" />
   </header>
 </template>
 
@@ -41,6 +41,14 @@ export default {
         router.push({ name: 'home' });
       }
       else { router.push({ name: 'login' }); }
+    },
+    displayProfile(){
+      let profile = false
+      if (localStorage.getItem('name')){
+        profile = true
+        return profile
+      }
+      else { return profile }
     }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <Header />
+  <Header :key="componentKey" />
   <main class="main">
     <router-view/>
   </main>
@@ -9,13 +9,17 @@
 <script>
 import Header from './components/Header.vue'
 import Footer from './components/Footer.vue'
+import { mapState } from 'vuex'
 
 export default {
   name: 'App',
   components: {
     Header,
     Footer
-  }
+  },
+  computed: {
+        ...mapState(['componentKey'])
+  },
 }
 </script>
 

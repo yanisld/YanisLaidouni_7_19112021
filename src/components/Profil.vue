@@ -1,6 +1,6 @@
 <template>
   <div class="profile">
-    <div class="profile_link" >{{ username }}</div>
+    <router-link class="profile_link" :to="{ name: 'utilisateur', params: { userId: getUserId() } }">{{ username }}</router-link>
     <i class="fas fa-user-circle fa-2x profile_img"></i>
   </div>
 </template>
