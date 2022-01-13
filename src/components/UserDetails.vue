@@ -1,17 +1,22 @@
 <template>
   <div class="user_details">
-      <ul>
-          <li><form id="user_details_username" @submit.prevent="updateUsername"><input type="text" id="user_details_username_input" name="username" />
-          <button type="submit">Modifier</button></form></li>
-          <li><form id="user_details_email" @submit.prevent="updateEmail"><input type="text" name="email" id="user_details_email_input" />
-          <button type="submit">Modifier</button></form></li>
+      <ul class="user_details_list">
+          <li class="user_details_list_item"><form id="user_details_username" @submit.prevent="updateUsername"><input type="text" id="user_details_username_input" name="username" />
+          <button type="submit" class="user_details_btn">Modifier</button></form></li>
+          <li class="user_details_list_item"><form id="user_details_email" @submit.prevent="updateEmail"><input type="text" name="email" id="user_details_email_input" />
+          <button type="submit" class="user_details_btn">Modifier</button></form></li>
       </ul>
-      <details>
-        <summary>Modifier le mot de passe</summary>
-          <form id="user_details_password" @submit.prevent="updatePassword"><input type="password" name="password"><button type="submit">Modifier</button></form>
+      <details class="user_details_password">
+        <summary class="user_details_password_summary">Modifier le mot de passe</summary>
+          <form id="user_details_password" @submit.prevent="updatePassword">
+            <input type="password" name="password" class="user_details_password_input">
+            <button type="submit" class="user_details_password_btn">Modifier</button>
+          </form>
       </details>
-      <button @click="logout()">Déconnexion</button>
-      <button @click="deleteUser(routeId)">Supprimer mon compte</button>
+      <div class="user_details_bottom">
+        <button class="user_details_btn_logout" @click="logout()">Déconnexion</button>
+        <button class="user_details_btn_delete" @click="deleteUser(routeId)">Supprimer mon compte</button>
+      </div>
   </div>
 </template>
 
@@ -119,5 +124,68 @@ created() {
   padding: 15px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1);
   margin: 0 0 15px 0;
+  &_list {
+    margin: 0;
+    padding: 0;
+    &_item {
+    list-style: none;
+    padding: 10px 0;
+    & input {
+      @include modalInput
+    }
+    }
+  }
+  &_password {
+    font-family: $bold-text;
+    & > summary::-webkit-details-marker {
+      display:none;
+    }
+    &_summary {
+      list-style: none;
+      cursor: pointer;
+    }
+    &_input {
+      @include modalInput
+    }
+    &_btn {
+      @include button;
+      margin: 0 0 0 10px;
+      &:hover {
+      background-color: darken($primary-color, 10%);
+      }
+    }
+  }
+  &_bottom {
+    display: flex;
+    flex-direction: column;
+  }
+  &_btn {
+    @include button;
+    margin: 0 0 0 10px;
+    &:hover {
+      background-color: darken($primary-color, 10%);
+    }
+    &_logout {
+      width: 150px;
+      margin: 20px 0;
+      @include button;
+      &:hover {
+        background-color: darken($primary-color, 10%);
+      }
+    }
+    &_delete {
+      background: $grey;
+      width: 220px;
+      border: none;
+      border-radius: 6px;
+      color: $text-color;
+      font-family: "latobold", Arial, sans-serif;
+      padding: 14px 16px;
+      cursor: pointer;
+      &:hover {
+        background: darken($grey, 10%);
+      }
+    }
+  }
 }
 </style>
