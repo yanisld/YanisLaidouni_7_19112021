@@ -1,6 +1,6 @@
 <template>
   <div class="modal-post">
-    <form id="modal-post_form" class="modal-post_form" @submit.prevent="addPost">
+    <form id="modal-post_form" class="modal-post_form" @submit.prevent="$emit('addPost')">
       <input
         class="modal-post_form_input"
         type="text"
@@ -23,21 +23,8 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { formData, fetchPost } from "@/functions.js";
 export default {
-  name: "ModalPost",
-    computed: {
-    ...mapState({ postRoute: "postRoute" }),
-  },
-  methods: {
-    async addPost() {
-        const form = document.querySelector("#modal-post_form");
-        const body = formData(form);
-        await fetchPost(this.postRoute, body);
-        window.location.reload();
-    }
-  }
+  name: "ModalPost"
 };
 </script>
 

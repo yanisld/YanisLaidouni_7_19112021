@@ -6,8 +6,8 @@
         <span>&nbsp;-&nbsp;</span>
         <div class="comment_date">{{ date }}</div>
       </div>
-      <i @click="showEditComment == false ? (showEditComment = true) : (showEditComment = false)" class="fas fa-ellipsis-h comment_edit fa-2x"></i>
-      <ul class="comment_edit_list" v-if="showEditComment">
+      <i @click="editComment();showEdit()" class="fas fa-ellipsis-h comment_edit fa-2x"></i>
+      <ul class="comment_edit_list" v-if="showEditComment && edit">
         <li class="comment_edit_list_item" @click="$emit('update')"><i class="fas fa-pen comment_edit_list_item_icon"></i>Modifier</li>
         <li class="comment_edit_list_item" @click="$emit('delete')"><i class="fas fa-trash-alt comment_edit_list_item_icon"></i>Supprimer</li>
       </ul>
@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 export default {
   name: 'Comment',
   data() {
@@ -32,6 +33,20 @@ export default {
     content: String,
     idUser: Number
   },
+  computed: {
+    ...mapState(['edit'])
+  },
+  methods: {
+    ...mapActions(['showEdit', 'closeEdit']),
+    editComment(){
+      if(this.showEditComment == false){
+        this.showEditComment = true
+        return this.showEditComment
+      } else { 
+        return this.showEditComment = false 
+        }
+    }
+  }
 };
 </script>
 
@@ -48,6 +63,7 @@ export default {
     align-items: center;
     &_intro {
       display: flex;
+      align-items: center;
     }
   }
   &_username {

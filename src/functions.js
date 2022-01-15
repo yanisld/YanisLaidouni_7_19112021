@@ -41,6 +41,24 @@ export const fetchPost = async (route, body) => {
     }
 }
 
+export const fetchPostData = async (route, body) => {
+    try {
+        await fetch(route, {
+            method: 'POST',
+            credentials: 'include',
+            mode: 'cors',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json; charset=utf-8',
+            },
+            body: JSON.stringify(body),
+        });
+    }
+    catch (err) {
+        console.error(err);
+    }
+}
+
 export const fetchGet = async (route) => {
     try {
         const datas = await fetch(route, { credentials: 'include' });

@@ -7,8 +7,8 @@
         <div class="post_date">{{ date }}</div>
       </div>
       <div>
-        <i @click="showEdit == false ? (showEdit = true) : (showEdit = false)" class="fas fa-ellipsis-h post_edit fa-2x"></i>
-        <ul class="post_edit_list" v-if="showEdit">
+        <i @click="showEdit == false ? (showEdit = true) : (showEdit = false);showPostEdit()" class="fas fa-ellipsis-h post_edit fa-2x"></i>
+        <ul class="post_edit_list" v-if="showEdit && edit">
           <li class="post_edit_list_item" @click="$emit('update')"><i class="fas fa-pen post_edit_list_item_icon"></i>Modifier</li>
           <li class="post_edit_list_item" @click="$emit('delete')"><i class="fas fa-trash-alt post_edit_list_item_icon"></i>Supprimer</li>
        </ul>
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 export default {
   name: 'Post',
   props: {
@@ -38,7 +39,11 @@ export default {
       showEdit: false,
     };
   },
+  computed: {
+    ...mapState(['edit'])
+  },
   methods: {
+    ...mapActions(['showPostEdit']),
     displayCommentLink() {
       let display = false
       if(this.$route.name == 'home') {
@@ -64,6 +69,7 @@ export default {
     align-items: center;
     &_intro {
       display: flex;
+      align-items: center;
     }
   }
   &_username {

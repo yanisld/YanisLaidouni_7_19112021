@@ -3,7 +3,7 @@
     <div class="add-post">
       <h1 class="add-post_title"><a @click="showModal=true">Créer une publication</a></h1>
     </div>
-    <Post v-for="(post, index) in posts" v-bind:key="index" 
+    <Post v-for="(post, index) in posts" v-bind:key="index"
     :idUser="post.user.id"
     :username="post.user.username"
     :date="formatDate(post.createdAt)"
@@ -13,7 +13,7 @@
     :content="post.content"
     :id="post.id"></Post>
   </div>
-  <ModalPost v-if="showModal" @close="showModal=false" />
+  <ModalPost v-if="showModal" @close="showModal=false" @addPost="addPost()" />
   <ModalUpdate v-if="showModalUpdate" @submit.prevent="updatePost(IdPost)" @close="showModalUpdate=false" />
 </template>
 
@@ -21,8 +21,8 @@
 import Post from "../components/Post.vue";
 import ModalPost from "../components/ModalPost.vue";
 import ModalUpdate from "../components/ModalUpdate.vue";
-import { mapState } from 'vuex';
-import { date, fetchGet, formData, fetchUpdate, fetchDelete } from "@/functions.js";
+import { mapState, mapActions } from 'vuex';
+import { date, fetchGet, formData, fetchPostData, fetchUpdate, fetchDelete } from "@/functions.js";
 export default {
   name: "Home",
   data() {
@@ -42,6 +42,7 @@ export default {
     ...mapState({postRoute: 'postRoute'})
   },
   methods: {
+    ...mapActions(['closeEdit']),
     async getAllPosts() {
       const data = await fetchGet(this.postRoute);
       if (data) {
@@ -64,6 +65,13 @@ export default {
         console.error('Erreur fetch');
       }
     },
+    async addPost() {
+        const form = document.querySelector("#modal-post_form");
+        const body = formData(form);
+        await fetchPostData(this.postRoute, body);
+        this.getAllPosts();
+        this.showModal = false
+    },
     async updatePost(id) {
         const form = document.querySelector("#modal-post_update-form");
         const body = formData(form);
@@ -72,7 +80,9 @@ export default {
         const result = fetch;
         console.log(result)
         if (result == true) {
-          window.location.reload();
+          this.getAllPosts();
+          this.showModalUpdate = false;
+          this.closeEdit()
         }
         else {
           console.error('Erreur fetch');
@@ -82,7 +92,7 @@ export default {
       try {
         const route = this.postRoute + id;
         await fetchDelete(route);
-        window.location.reload();
+        this.getAllPosts();
       } catch(err) {
         console.error(err);
       }

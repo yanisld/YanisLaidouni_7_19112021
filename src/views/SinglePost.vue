@@ -14,7 +14,7 @@
     <div class="comments">
       <div class="add-comment">
         <form id="add-comment-form" class="add-comment_form" @submit.prevent="addComment">
-          <input type="text" name="content" class="add-comment_form_input" placeholder="Commentaire" required>
+          <input type="text" name="content" id="add-comment_form_input" class="add-comment_form_input" placeholder="Commentaire" required>
           <button type="submit" class="add-comment_form_btn">Commenter</button>
         </form>
       </div>
@@ -39,8 +39,8 @@ import Post from '@/components/Post.vue';
 import ModalUpdate from "../components/ModalUpdate.vue";
 import ModalComment from '@/components/ModalComment.vue';
 import Comment from '@/components/Comment.vue';
-import { mapState } from 'vuex';
-import { date, fetchGet, formData, fetchPost, fetchUpdate, fetchDelete } from "@/functions.js";
+import { mapState, mapActions } from 'vuex';
+import { date, fetchGet, formData, fetchPostData, fetchUpdate, fetchDelete } from "@/functions.js";
 export default {
   name: 'SinglePost',
   components: {
@@ -64,6 +64,7 @@ export default {
     ...mapState({postRoute: 'postRoute'})
   },
   methods: {
+    ...mapActions(['closeEdit']),
     createRoute() {
       return (this.routeId = this.$route.params.postId);
     },
@@ -98,7 +99,8 @@ export default {
         const result = fetch;
         console.log(result)
         if (result == true) {
-          window.location.reload();
+          this.getPost()
+          this.showModal = false
         }
         else {
           console.error('Erreur fetch');
@@ -125,10 +127,12 @@ export default {
     },
     async addComment() {
         const form = document.querySelector("#add-comment-form");
+        const input = document.querySelector('#add-comment_form_input')
         const body = formData(form);
         const route = this.postRoute + this.routeId + '/comment';
-        await fetchPost(route, body);
-        window.location.reload();
+        await fetchPostData(route, body);
+        this.getComment()
+        input.value = null
     },
     async getCommentContent(id){
       const route = this.postRoute + this.routeId + '/comment/' + id;
@@ -147,9 +151,10 @@ export default {
         const route = this.postRoute + this.routeId + '/comment/' + id;
         const fetch = await fetchUpdate(route, body);
         const result = fetch;
-        console.log(result)
         if (result == true) {
-          window.location.reload();
+          this.getComment();
+          this.showModalComment = false
+          this.closeEdit()
         }
         else {
           console.error('Erreur fetch');
@@ -159,7 +164,7 @@ export default {
       try {
         const route = this.postRoute + this.routeId + '/comment/' + id;
         await fetchDelete(route);
-        window.location.reload();
+        this.getComment();
       } catch(err) {
         console.error(err);
       }
