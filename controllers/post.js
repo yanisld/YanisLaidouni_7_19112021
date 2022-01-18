@@ -21,7 +21,7 @@ exports.create = async (req, res, next) => {
 
 exports.getAll = async (req, res, next) => {
     try {
-        const results = await Post.findAll({ include: ['user'], order: [['createdAt', 'DESC']] });
+        const results = await Post.findAll({ include: [{model: User, as: 'user'}, {model: Like, as: 'like'}], order: [['createdAt', 'DESC']] });
         return res.status(200).json(results);
     }
     catch (err) {
@@ -32,7 +32,7 @@ exports.getAll = async (req, res, next) => {
 
 exports.get = async (req, res, next) => {
     try {
-        const result = await Post.findOne({ include: ['user'], where: { id: req.params.id } });
+        const result = await Post.findOne({ include: [{model: User, as: 'user'}, {model: Like, as: 'like'}], where: { id: req.params.id } });
         return res.status(200).json(result);
     }
     catch (err) {

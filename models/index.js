@@ -23,6 +23,9 @@ db.user.hasMany(db.post, {
 db.post.belongsTo(db.user, {
     as: 'user', foreignKey: { name:'user_id', allowNull: false }, onDelete: 'NO ACTION'
 });
+db.post.hasMany(db.like, {
+    as: 'like', foreignKey: { name:'post_id', primaryKey: true, allowNull: false }, onDelete: 'NO ACTION'
+});
 
 db.user.hasMany(db.comment, {
     foreignKey: { name:'user_id', primaryKey: true, allowNull: false }, onDelete: 'NO ACTION'

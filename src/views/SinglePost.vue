@@ -10,6 +10,8 @@
       :title="post.title"
       :content="post.content"
       :id="post.id"
+      :like="getLike(post.like)"
+      @createLike="createLike(post.id, post.like)"
     />
     <div class="comments">
       <div class="add-comment">
@@ -168,6 +170,23 @@ export default {
       } catch(err) {
         console.error(err);
       }
+    },
+    getLike(tab) {
+      let count = 0
+      for(let like of tab){
+        if(like.value == 1){
+          count+=1
+        }
+        else if(like.value == 0){
+          count-=1
+        }
+      }
+      return count
+    },
+    async createLike(id){
+      const route = this.postRoute + id + '/like/'
+      const body = { value: 1 }
+      await fetchPostData(route, body);
     },
     formatDate(newDate){
       const formatedDate = date(newDate);

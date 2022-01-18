@@ -16,8 +16,13 @@
     </div>
     <h2 class="post_title">{{ title }}</h2>
     <div class="post_content">{{ content }}</div>
-    <div v-if="displayCommentLink()" class="post_bottom">
-      <router-link class="post_comment" :to="{ name: 'publication', params: { postId: id } }" ><i class="far fa-comment"></i> Commenter</router-link>
+    <div class="post_bottom">
+      <div v-if="displayCommentLink()" class="post_comment">
+        <router-link class="post_comment_link" :to="{ name: 'publication', params: { postId: id } }" ><i class="far fa-comment"></i> Commenter</router-link>
+      </div>
+      <div>
+        <div @click="$emit('createLike')" class="post_like"><div>{{ like }}</div><i class="far fa-thumbs-up post_like_icon"></i></div>
+      </div>
     </div>
   </div>
 </template>
@@ -32,7 +37,8 @@ export default {
     title: String,
     content: String,
     id: Number,
-    idUser: Number
+    idUser: Number,
+    like: Number
   },
   data() {
     return {
@@ -120,13 +126,29 @@ export default {
     border-bottom: 1px solid $grey;
   }
   &_bottom {
+    display: flex;
+  }
+  &_comment{
     padding: 8px 15px 0;
   }
-  &_comment {
+  &_comment_link {
     text-decoration: none;
     color: $dark-grey;
     &:hover {
       color: darken($dark-grey, 10%);
+    }
+  }
+  &_like {
+    display: flex;
+    align-items: flex-start;
+    cursor: pointer;
+    padding: 8px 15px 0;
+    color: $dark-grey;
+    &:hover {
+      color: darken($dark-grey, 10%);
+    }
+    &_icon {
+      margin:0 0 0 3px;
     }
   }
 }

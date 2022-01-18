@@ -11,7 +11,9 @@
     @delete="deletePost(post.id)"
     :title="post.title"
     :content="post.content"
-    :id="post.id"></Post>
+    :id="post.id"
+    :like="getLike(post.like)"
+    @createLike="createLike(post.id, post.like)"></Post>
   </div>
   <ModalPost v-if="showModal" @close="showModal=false" @addPost="addPost()" />
   <ModalUpdate v-if="showModalUpdate" @submit.prevent="updatePost(IdPost)" @close="showModalUpdate=false" />
@@ -43,6 +45,23 @@ export default {
   },
   methods: {
     ...mapActions(['closeEdit']),
+    getLike(tab) {
+      let count = 0
+      for(let like of tab){
+        if(like.value == 1){
+          count+=1
+        }
+        else if(like.value == 0){
+          count-=1
+        }
+      }
+      return count
+    },
+    async createLike(id){
+      const route = this.postRoute + id + '/like/'
+      const body = { value: 1 }
+      await fetchPostData(route, body);
+    },
     async getAllPosts() {
       const data = await fetchGet(this.postRoute);
       if (data) {
