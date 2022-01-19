@@ -2,12 +2,13 @@
   <div class="post">
     <div class="post_top">
       <div class="post_top_intro">
-        <div class="post_username"><router-link class="post_username_link" :to="{ name: 'utilisateur', params: { userId: idUser } }" >{{ username }}</router-link></div>
+        <div class="post_username" v-if="showAction()"><router-link class="post_username_link" :to="{ name: 'utilisateur', params: { userId: idUser } }" >{{ username }}</router-link></div>
+        <div class="post_username" v-if="dontShowAction()">{{ username }}</div>
         <span>&nbsp;-&nbsp;</span>
         <div class="post_date">{{ date }}</div>
       </div>
       <div>
-        <i @click="showEdit == false ? (showEdit = true) : (showEdit = false);showPostEdit()" class="fas fa-ellipsis-h post_edit fa-2x"></i>
+        <i v-if="showAction()" @click="showEdit == false ? (showEdit = true) : (showEdit = false);showPostEdit()" class="fas fa-ellipsis-h post_edit fa-2x"></i>
         <ul class="post_edit_list" v-if="showEdit && edit">
           <li class="post_edit_list_item" @click="$emit('update')"><i class="fas fa-pen post_edit_list_item_icon"></i>Modifier</li>
           <li class="post_edit_list_item" @click="$emit('delete')"><i class="fas fa-trash-alt post_edit_list_item_icon"></i>Supprimer</li>
@@ -29,6 +30,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import constant from '../../config/constant'
 export default {
   name: 'Post',
   props: {
@@ -57,6 +59,22 @@ export default {
         return display
       }
       else { return display}
+    },
+    showAction(){
+      const currentUser = JSON.parse(localStorage.getItem('name'));
+      let show = false;
+      if(this.idUser == currentUser.value.id || currentUser.value.role == constant.admin){
+        return show = true
+      }
+      return show
+    },
+    dontShowAction(){
+      const currentUser = JSON.parse(localStorage.getItem('name'));
+      let show = true;
+      if(this.idUser == currentUser.value.id || currentUser.value.role == constant.admin){
+        return show = false
+      }
+      return show
     }
   }
 };
@@ -73,6 +91,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height:32px;
     &_intro {
       display: flex;
       align-items: center;
@@ -145,7 +164,7 @@ export default {
     padding: 8px 15px 0;
     color: $dark-grey;
     &:hover {
-      color: darken($dark-grey, 10%);
+      color: darken($dark-grey, 20%);
     }
     &_icon {
       margin:0 0 0 3px;

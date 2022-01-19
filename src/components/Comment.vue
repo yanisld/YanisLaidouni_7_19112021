@@ -2,11 +2,12 @@
   <div class="comment">
     <div class="comment_top">
       <div class="comment_top_intro">
-        <div class="comment_username"><router-link class="comment_username_link" :to="{ name: 'utilisateur', params: { userId: idUser } }" >{{ username }}</router-link></div>
+        <div class="comment_username" v-if="showAction()"><router-link class="comment_username_link" :to="{ name: 'utilisateur', params: { userId: idUser } }" >{{ username }}</router-link></div>
+        <div class="comment_username" v-if="dontShowAction()">{{ username }}</div>
         <span>&nbsp;-&nbsp;</span>
         <div class="comment_date">{{ date }}</div>
       </div>
-      <i @click="editComment();showEdit()" class="fas fa-ellipsis-h comment_edit fa-2x"></i>
+      <i v-if="showAction()" @click="editComment();showEdit()" class="fas fa-ellipsis-h comment_edit fa-2x"></i>
       <ul class="comment_edit_list" v-if="showEditComment && edit">
         <li class="comment_edit_list_item" @click="$emit('update')"><i class="fas fa-pen comment_edit_list_item_icon"></i>Modifier</li>
         <li class="comment_edit_list_item" @click="$emit('delete')"><i class="fas fa-trash-alt comment_edit_list_item_icon"></i>Supprimer</li>
@@ -20,6 +21,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import constant from '../../config/constant'
 export default {
   name: 'Comment',
   data() {
@@ -45,6 +47,22 @@ export default {
       } else { 
         return this.showEditComment = false 
         }
+    },
+    showAction(){
+      const currentUser = JSON.parse(localStorage.getItem('name'));
+      let show = false;
+      if(this.idUser == currentUser.value.id || currentUser.value.role == constant.admin){
+        return show = true
+      }
+      return show
+    },
+    dontShowAction(){
+      const currentUser = JSON.parse(localStorage.getItem('name'));
+      let show = true;
+      if(this.idUser == currentUser.value.id || currentUser.value.role == constant.admin){
+        return show = false
+      }
+      return show
     }
   }
 };
