@@ -31,7 +31,7 @@ exports.create = async (req, res, next) => {
 
 exports.login = async (req, res, next) => {
     try {
-        const user = await User.findOne({ where: { email: req.body.email }, raw: true });
+        const user = await User.findOne({ include: ['role'], where: { email: req.body.email } });
         if (!user) {
             return res.status(401).json({ error: 'Utilisateur non trouvé !' });
         }
@@ -46,7 +46,8 @@ exports.login = async (req, res, next) => {
                 res.cookie('access_token', token, { maxAge: 12 * 3600000, httpOnly: true, sameSite: 'Lax'});
                 const username = user.username;
                 const id = user.id;
-                return res.status(200).json({ message: 'Utilisateur connecté !', token, username, id });
+                const role = user.role.dataValues.name;
+                return res.status(200).json({ message: 'Utilisateur connecté !', token, username, id, role });
             }
         }
     }
