@@ -61,6 +61,12 @@ export default {
         const body = formData(form);
         const route = this.userRoute + this.routeId;
         await fetchUpdate(route, body);
+        let storage = JSON.parse(localStorage.getItem('name'));
+        if(storage.value.role != 'moderator'){
+          localStorage.removeItem('name');
+          storage.value.username = body.username;
+          localStorage.setItem('name', JSON.stringify(storage));
+        }
         window.location.reload();
       }
       catch(err) { console.error(err) }
@@ -100,6 +106,7 @@ export default {
         const route = this.userRoute + id;
         await fetchDelete(route);
         localStorage.removeItem('name');
+        this.forceRerender();
         router.push({ name: 'login' });
       } 
       catch(err) { console.error(err) }

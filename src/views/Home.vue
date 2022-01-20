@@ -105,6 +105,7 @@ export default {
       try {
         const route = this.postRoute + id;
         await fetchDelete(route);
+        this.closeEdit()
         this.getAllPosts();
       } 
       catch(err) { console.error(err) }
