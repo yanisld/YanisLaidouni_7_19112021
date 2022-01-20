@@ -17,7 +17,7 @@ const storeUsername = (key, value, ttl) => {
     localStorage.setItem(key, JSON.stringify(item))
 }
 
-export const fetchPost = async (route, body) => {
+export const fetchPostData = async (route, body) => {
     try {
         const datas = await fetch(route, {
             method: 'POST',
@@ -35,13 +35,11 @@ export const fetchPost = async (route, body) => {
             storeUsername('name', user, 43200);
             return user;
         }
-    }
-    catch (err) {
-        console.error(err);
-    }
+    } 
+    catch (err) { console.error(err) }
 }
 
-export const fetchPostData = async (route, body) => {
+export const fetchPost = async (route, body) => {
     try {
         await fetch(route, {
             method: 'POST',
@@ -54,9 +52,7 @@ export const fetchPostData = async (route, body) => {
             body: JSON.stringify(body),
         });
     }
-    catch (err) {
-        console.error(err);
-    }
+    catch (err) { console.error(err) }
 }
 
 export const fetchGet = async (route) => {
@@ -66,15 +62,13 @@ export const fetchGet = async (route) => {
         if (result) {
           return result;
         }
-        } catch (err) {
-        console.error(err);
-      }
+    }
+    catch (err) { console.error(err) }
 }
 
 export const fetchUpdate = async (route, body) => {
     try {
-        let result = false;
-        const datas = await fetch(route, {
+        await fetch(route, {
             method: 'PUT',
             credentials: 'include',
             mode: 'cors',
@@ -84,22 +78,15 @@ export const fetchUpdate = async (route, body) => {
             },
             body: JSON.stringify(body),
         });
-        if (datas.ok) {
-            result = true;
-            return result;
-        }
     }
-    catch (err) {
-        console.error(err);
-    }
+    catch (err) { console.error(err) }
 }
 
 export const fetchDelete= async (route) => {
     try {
         await fetch(route, { method: 'DELETE', credentials: 'include' });
-      } catch(err) {
-        console.error(err);
-      }
+    }
+    catch (err) { console.error(err) }
 }
 
 export const date = (newDate) => {

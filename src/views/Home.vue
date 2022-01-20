@@ -20,13 +20,13 @@
 </template>
 
 <script>
-import Post from "../components/Post.vue";
-import ModalPost from "../components/ModalPost.vue";
-import ModalUpdate from "../components/ModalUpdate.vue";
-import { mapState, mapActions } from 'vuex';
-import { date, fetchGet, formData, fetchPostData, fetchUpdate, fetchDelete } from "@/functions.js";
+import Post from '@/components/Post.vue'
+import ModalPost from '@/components/ModalPost.vue'
+import ModalUpdate from '@/components/ModalUpdate.vue'
+import { mapState, mapActions } from 'vuex'
+import { date, fetchGet, formData, fetchPost, fetchUpdate, fetchDelete } from '@/functions.js'
 export default {
-  name: "Home",
+  name: 'Home',
   data() {
     return {
       posts: null,
@@ -48,73 +48,66 @@ export default {
     getLike(tab) {
       let count = 0
       for(let like of tab){
-        if(like.value == 1){
-          count+=1
-        }
-        else if(like.value == 0){
-          count-=1
-        }
+        if(like.value == 1){ count+=1 }
+        else if(like.value == 0){ count-=1 }
       }
       return count
     },
     async createLike(id){
-      const route = this.postRoute + id + '/like/'
-      const body = { value: 1 }
-      await fetchPostData(route, body);
+      try {
+        const route = this.postRoute + id + '/like/'
+        const body = { value: 1 }
+        await fetchPost(route, body);
+      }
+      catch (err) { console.error(err) }
     },
     async getAllPosts() {
-      const data = await fetchGet(this.postRoute);
-      if (data) {
+      try {
+        const data = await fetchGet(this.postRoute);
         this.posts = data;
       }
-      else {
-        console.error('Erreur fetch');
-      }
+      catch (err) { console.error(err) }
     },
     async getPostContent(id){
-      const route = this.postRoute + id;
-      const data = await fetchGet(route);
-      let title = document.getElementById('modal-post_form_input_title');
-      let text = document.getElementById('modal-post_form_input_text');
-      if (data) {
+      try {
+        const route = this.postRoute + id;
+        const data = await fetchGet(route);
+        let title = document.getElementById('modal-post_form_input_title');
+        let text = document.getElementById('modal-post_form_input_text');
         title.value = data.title;
         text.value = data.content;
       }
-      else {
-        console.error('Erreur fetch');
-      }
+      catch (err) { console.error(err) }
     },
     async addPost() {
+      try {
         const form = document.querySelector("#modal-post_form");
         const body = formData(form);
-        await fetchPostData(this.postRoute, body);
+        await fetchPost(this.postRoute, body);
         this.getAllPosts();
         this.showModal = false
+      }
+      catch (err) { console.error(err) }
     },
     async updatePost(id) {
+      try {
         const form = document.querySelector("#modal-post_update-form");
         const body = formData(form);
         const route = this.postRoute + id;
-        const fetch = await fetchUpdate(route, body);
-        const result = fetch;
-        console.log(result)
-        if (result == true) {
-          this.getAllPosts();
-          this.showModalUpdate = false;
-          this.closeEdit()
-        }
-        else {
-          console.error('Erreur fetch');
-        }
+        await fetchUpdate(route, body);
+        this.getAllPosts();
+        this.showModalUpdate = false;
+        this.closeEdit()
+      }
+      catch (err) { console.error(err) }
     },
     async deletePost(id) {
       try {
         const route = this.postRoute + id;
         await fetchDelete(route);
         this.getAllPosts();
-      } catch(err) {
-        console.error(err);
-      }
+      } 
+      catch(err) { console.error(err) }
     },
     formatDate(newDate){
       const formatedDate = date(newDate);
@@ -123,8 +116,8 @@ export default {
   },
   created() {
     this.getAllPosts();
-  },
-};
+  }
+}
 </script>
 
 <style scoped lang="scss">

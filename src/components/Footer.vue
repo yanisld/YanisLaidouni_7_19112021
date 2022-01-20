@@ -1,18 +1,22 @@
 <template>
-  <footer class="footer">
-      <div class="footer_top">Groupomania {{ year() }}</div>
-      <ul class="footer_bottom"><li class="footer_bottom_list">Confidentialité</li><li class="footer_bottom_list">Cookies</li><li class="footer_bottom_list">Mentions légales</li></ul>
-  </footer>
+    <footer class="footer">
+        <div class="footer_top">Groupomania {{ year() }}</div>
+        <ul class="footer_bottom">
+            <li class="footer_bottom_list">Confidentialité</li>
+            <li class="footer_bottom_list">Cookies</li>
+            <li class="footer_bottom_list">Mentions légales</li>
+        </ul>
+    </footer>
 </template>
 
 <script>
 export default {
   name: 'Footer',
   methods: {
-      year() {
-          const date = new Date();
-          return date.getFullYear();
-      }
+    year() {
+        const date = new Date();
+        return date.getFullYear();
+    }
   }
 }
 </script>
@@ -31,7 +35,7 @@ export default {
     &_bottom {
         display: flex;
         flex-direction: row;
-         flex-wrap: wrap;
+            flex-wrap: wrap;
         margin: 10px auto;
         &_list {
             list-style: none;

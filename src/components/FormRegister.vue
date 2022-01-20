@@ -4,57 +4,34 @@
       Partagez vos expériences et ressources avec vos collègues
     </h1>
     <form @submit.prevent="register" id="register-form" class="register-form">
-      <input
-        class="register-form_input"
-        type="text"
-        name="username"
-        placeholder="Nom d'utilisateur"
-        required
-      />
-      <input
-        class="register-form_input"
-        type="email"
-        name="email"
-        placeholder="Adresse Email"
-        required
-      />
-      <input
-        class="register-form_input"
-        type="password"
-        name="password"
-        placeholder="Mot de passe"
-        required
-      />
-      <input
-        class="register-form_submit"
-        id="register-form_submit"
-        type="submit"
-        value="S'incrire"
-      />
+      <input class="register-form_input" type="text" name="username" placeholder="Nom d'utilisateur" required />
+      <input class="register-form_input" type="email" name="email" placeholder="Adresse Email" required />
+      <input class="register-form_input" type="password" name="password" placeholder="Mot de passe" required />
+      <input class="register-form_submit" id="register-form_submit" type="submit" value="S'incrire" />
     </form>
   </div>
 </template>
 
 <script>
-import router from "../router/index";
-import { mapState } from "vuex";
-import { formData, fetchPost } from "@/functions.js";
+import router from '../router/index'
+import { mapState } from 'vuex'
+import { formData, fetchPostData } from '@/functions.js'
 export default {
-  name: "FormRegister",
+  name: 'FormRegister',
   computed: {
-    ...mapState({ userRoute: "userRoute" }),
+    ...mapState({ userRoute: 'userRoute' }),
   },
   methods: {
     async register() {
-      const form = document.querySelector("#register-form");
+      const form = document.querySelector('#register-form');
       const body = formData(form);
-      const route = this.userRoute + "inscription";
-      const result = await fetchPost(route, body);
+      const route = this.userRoute + 'inscription';
+      const result = await fetchPostData(route, body);
       if (result) {
-        router.push({ name: "login" });
+        router.push({ name: 'login' });
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

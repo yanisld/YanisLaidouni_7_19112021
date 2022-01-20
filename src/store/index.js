@@ -12,14 +12,10 @@ export default createStore({
       state.componentKey += 1;
     },
     SHOW_EDIT(state){
-      console.log(state.edit)
       state.edit = true
-      console.log(state.edit)
     },
     CLOSE_EDIT(state){
-      console.log(state.edit)
       state.edit = false
-      console.log(state.edit)
     }
   },
   actions: {

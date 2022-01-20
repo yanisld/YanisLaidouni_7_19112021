@@ -36,13 +36,13 @@
 </template>
 
 <script>
-import router from "@/router/index";
-import Post from '@/components/Post.vue';
-import ModalUpdate from "../components/ModalUpdate.vue";
-import ModalComment from '@/components/ModalComment.vue';
-import Comment from '@/components/Comment.vue';
-import { mapState, mapActions } from 'vuex';
-import { date, fetchGet, formData, fetchPostData, fetchUpdate, fetchDelete } from "@/functions.js";
+import router from '@/router/index'
+import Post from '@/components/Post.vue'
+import ModalUpdate from '@/components/ModalUpdate.vue'
+import ModalComment from '@/components/ModalComment.vue'
+import Comment from '@/components/Comment.vue'
+import { mapState, mapActions } from 'vuex'
+import { date, fetchGet, formData, fetchPost, fetchUpdate, fetchDelete } from '@/functions.js'
 export default {
   name: 'SinglePost',
   components: {
@@ -60,9 +60,9 @@ export default {
       IdPost: null,
       showModalComment: false,
       commentId: null
-    };
+    }
   },
-    computed: {
+  computed: {
     ...mapState({postRoute: 'postRoute'})
   },
   methods: {
@@ -71,122 +71,107 @@ export default {
       return (this.routeId = this.$route.params.postId);
     },
     async getPost() {
-      const route = this.postRoute + this.routeId;
-      const data = await fetchGet(route);
-      if (data) {
+      try {
+        const route = this.postRoute + this.routeId;
+        const data = await fetchGet(route);
         this.post = data;
       }
-      else {
-        console.error('Erreur fetch publication');
-      }
+      catch (err) { console.error(err) }
     },
     async getPostContent(id){
-      const route = this.postRoute + id;
-      const data = await fetchGet(route);
-      let title = document.getElementById('modal-post_form_input_title');
-      let text = document.getElementById('modal-post_form_input_text');
-      if (data) {
+      try {
+        const route = this.postRoute + id;
+        const data = await fetchGet(route);
+        let title = document.getElementById('modal-post_form_input_title');
+        let text = document.getElementById('modal-post_form_input_text');
         title.value = data.title;
         text.value = data.content;
       }
-      else {
-        console.error('Erreur fetch');
-      }
+      catch (err) { console.error(err) }
     },
     async updatePost(id) {
-        const form = document.querySelector("#modal-post_update-form");
+      try {
+        const form = document.querySelector('#modal-post_update-form');
         const body = formData(form);
         const route = this.postRoute + id;
-        const fetch = await fetchUpdate(route, body);
-        const result = fetch;
-        console.log(result)
-        if (result == true) {
-          this.getPost()
-          this.showModal = false
-        }
-        else {
-          console.error('Erreur fetch');
-        }
+        await fetchUpdate(route, body);
+        this.getPost()
+        this.showModal = false
+      }
+      catch (err) { console.error(err) }
     },
     async deletePost(id) {
       try {
         const route = this.postRoute + id;
         await fetchDelete(route);
         router.push({ name: 'home' });
-      } catch(err) {
-        console.error(err);
-      }
+      } 
+      catch(err) { console.error(err) }
     },
     async getComment() {
-      const route = this.postRoute + this.routeId + '/comments';
-      const datas = await fetchGet(route);
-      if (datas) {
+      try {
+        const route = this.postRoute + this.routeId + '/comments';
+        const datas = await fetchGet(route);
         this.comments = datas;
       }
-      else {
-        console.error('Erreur fetch commentaires');
-      }
+      catch(err) { console.error(err) }
     },
     async addComment() {
-        const form = document.querySelector("#add-comment-form");
+      try {
+        const form = document.querySelector('#add-comment-form');
         const input = document.querySelector('#add-comment_form_input')
         const body = formData(form);
         const route = this.postRoute + this.routeId + '/comment';
-        await fetchPostData(route, body);
+        await fetchPost(route, body);
         this.getComment()
         input.value = null
+      }
+      catch(err) { console.error(err) }
     },
     async getCommentContent(id){
-      const route = this.postRoute + this.routeId + '/comment/' + id;
-      const data = await fetchGet(route);
-      let text = document.getElementById('modal-comment_form_input_text');
-      if (data) {
+      try {
+        const route = this.postRoute + this.routeId + '/comment/' + id;
+        const data = await fetchGet(route);
+        let text = document.getElementById('modal-comment_form_input_text');
         text.value = data.content;
       }
-      else {
-        console.error('Erreur fetch');
-      }
+      catch(err) { console.error(err) }
     },
     async updateComment(id) {
-        const form = document.querySelector("#modal-comment_update-form");
+      try {
+        const form = document.querySelector('#modal-comment_update-form');
         const body = formData(form);
         const route = this.postRoute + this.routeId + '/comment/' + id;
-        const fetch = await fetchUpdate(route, body);
-        const result = fetch;
-        if (result == true) {
-          this.getComment();
-          this.showModalComment = false
-          this.closeEdit()
-        }
-        else {
-          console.error('Erreur fetch');
-        }
+        await fetchUpdate(route, body);
+        this.getComment();
+        this.showModalComment = false
+        this.closeEdit()
+      }
+      catch(err) { console.error(err) }
     },
     async deleteComment(id) {
       try {
         const route = this.postRoute + this.routeId + '/comment/' + id;
         await fetchDelete(route);
         this.getComment();
-      } catch(err) {
-        console.error(err);
-      }
+      } 
+      catch(err) { console.error(err) }
     },
     getLike(tab) {
       let count = 0
       for(let like of tab){
-        if(like.value == 1){
-          count+=1
-        }
-        else if(like.value == 0){
-          count-=1
-        }
+        if(like.value == 1){ count+=1 }
+        else if(like.value == 0){ count-=1 }
       }
       return count
     },
     async createLike(id){
-      const route = this.postRoute + id + '/like/'
-      const body = { value: 1 }
-      await fetchPostData(route, body);
+      try {
+        const route = this.postRoute + id + '/like/'
+        const body = { value: 1 }
+        await fetchPost(route, body);
+      }
+      catch(err) { console.error(err) }
     },
     formatDate(newDate){
       const formatedDate = date(newDate);
@@ -206,8 +191,8 @@ export default {
   margin: 0 auto;
   max-width: 640px;
   padding: 50px 0;
-}
-.add-comment {
+  }
+  .add-comment {
   background: #fff;
   border-radius: 6px;
   padding:15px;

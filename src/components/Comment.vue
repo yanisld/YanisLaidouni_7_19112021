@@ -2,7 +2,9 @@
   <div class="comment">
     <div class="comment_top">
       <div class="comment_top_intro">
-        <div class="comment_username" v-if="showAction()"><router-link class="comment_username_link" :to="{ name: 'utilisateur', params: { userId: idUser } }" >{{ username }}</router-link></div>
+        <div class="comment_username" v-if="showAction()">
+          <router-link class="comment_username_link" :to="{ name: 'utilisateur', params: { userId: idUser } }" >{{ username }}</router-link>
+        </div>
         <div class="comment_username" v-if="dontShowAction()">{{ username }}</div>
         <span>&nbsp;-&nbsp;</span>
         <div class="comment_date">{{ date }}</div>
@@ -44,8 +46,7 @@ export default {
     ...mapActions(['showEdit', 'closeEdit']),
     editComment(){
       if(this.showEditComment == false){
-        this.showEditComment = true
-        return this.showEditComment
+        return this.showEditComment = true
       } else { 
         return this.showEditComment = false 
         }

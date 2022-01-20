@@ -1,30 +1,17 @@
 <template>
   <div class="modal-post">
     <form id="modal-post_form" class="modal-post_form" @submit.prevent="$emit('addPost')">
-      <input
-        class="modal-post_form_input"
-        type="text"
-        name="title"
-        placeholder="Titre"
-        required
-      />
-      <textarea
-        class="modal-post_form_input"
-        name="content"
-        placeholder="Texte"
-        required
-      />
+      <input class="modal-post_form_input" type="text" name="title" placeholder="Titre" required />
+      <textarea class="modal-post_form_input" name="content" placeholder="Texte" required />
       <input type="submit" class="modal-post_form_submit" value="Publier" />
-      <button class="modal-post_form_close" @click="$emit('close')">
-        Annuler
-      </button>
+      <button class="modal-post_form_close" @click="$emit('close')">Annuler</button>
     </form>
   </div>
 </template>
 
 <script>
 export default {
-  name: "ModalPost"
+  name: 'ModalPost'
 };
 </script>
 

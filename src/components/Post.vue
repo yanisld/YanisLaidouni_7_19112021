@@ -2,7 +2,9 @@
   <div class="post">
     <div class="post_top">
       <div class="post_top_intro">
-        <div class="post_username" v-if="showAction()"><router-link class="post_username_link" :to="{ name: 'utilisateur', params: { userId: idUser } }" >{{ username }}</router-link></div>
+        <div class="post_username" v-if="showAction()">
+          <router-link class="post_username_link" :to="{ name: 'utilisateur', params: { userId: idUser } }" >{{ username }}</router-link>
+        </div>
         <div class="post_username" v-if="dontShowAction()">{{ username }}</div>
         <span>&nbsp;-&nbsp;</span>
         <div class="post_date">{{ date }}</div>
@@ -12,7 +14,7 @@
         <ul class="post_edit_list" v-if="showEdit && edit">
           <li class="post_edit_list_item" @click="$emit('update')"><i class="fas fa-pen post_edit_list_item_icon"></i>Modifier</li>
           <li class="post_edit_list_item" @click="$emit('delete')"><i class="fas fa-trash-alt post_edit_list_item_icon"></i>Supprimer</li>
-       </ul>
+        </ul>
       </div>
     </div>
     <h2 class="post_title">{{ title }}</h2>
@@ -55,8 +57,7 @@ export default {
     displayCommentLink() {
       let display = false
       if(this.$route.name == 'home') {
-        display = true
-        return display
+        return display = true
       }
       else { return display}
     },

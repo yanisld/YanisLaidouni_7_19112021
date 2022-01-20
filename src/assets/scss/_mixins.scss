@@ -1,11 +1,11 @@
 @mixin button {
-    background: $primary-color;
-    border:none;
-    border-radius: 6px;
-    color: #fff;
-    font-family: $bold-text;
-    padding: 14px 16px;
-    cursor: pointer;
+  background: $primary-color;
+  border:none;
+  border-radius: 6px;
+  color: #fff;
+  font-family: $bold-text;
+  padding: 14px 16px;
+  cursor: pointer;
 }
 @mixin separator {
   border: 1px solid $grey;
@@ -23,28 +23,28 @@
 }
 @mixin modalForm {
   display: flex;
-    flex-direction: column;
-    max-width: 440px;
-    margin: 100px auto 0;
-    padding: 20px 30px;
-    background-color: #fff;
-    border-radius: 6px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+  flex-direction: column;
+  max-width: 440px;
+  margin: 100px auto 0;
+  padding: 20px 30px;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 @mixin modalInput {
-    border-radius: 6px;
-      font-size: 17px;
-      padding: 14px 16px;
-      margin: 8px 0;
-      border: 1px solid $grey;
+  border-radius: 6px;
+  font-size: 17px;
+  padding: 14px 16px;
+  margin: 8px 0;
+  border: 1px solid $grey;
 }
 @mixin modalClose {
   background: $grey;
-      font-family: $bold-text;
-      margin: 5px 0 0 0;
-      padding: 14px 0;
-      border-radius: 6px;
-      border: none;
-      cursor: pointer;
+  font-family: $bold-text;
+  margin: 5px 0 0 0;
+  padding: 14px 0;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
 }

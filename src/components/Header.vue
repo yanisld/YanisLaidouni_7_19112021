@@ -8,21 +8,16 @@
 </template>
 
 <script>
-import router from '../router/index';
+import router from '../router/index'
 import Profil from '@/components/Profil.vue'
 import { mapState } from 'vuex'
 export default {
   name: 'Header',
-  data() {
-    return {
-      
-    }
-  },
   components: {
     Profil
   },
   computed: {
-        ...mapState(['componentKey'])
+    ...mapState(['componentKey'])
   },
   methods: {
     displayUsername(){
@@ -45,8 +40,7 @@ export default {
     displayProfile(){
       let profile = false
       if (localStorage.getItem('name')){
-        profile = true
-        return profile
+        return profile = true
       }
       else { return profile }
     }
@@ -56,17 +50,17 @@ export default {
 
 <style scoped lang="scss">
 .header {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    position: relative;
-    z-index: 2;
-    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.175);
-    padding: 10px 20px;
-    & .logo{
-      width: 100%;
-      height: auto;
-    }
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.175);
+  padding: 10px 20px;
+  & .logo{
+    width: 100%;
+    height: auto;
+  }
 }
 @media screen and (max-width: 374px) {
   .header{

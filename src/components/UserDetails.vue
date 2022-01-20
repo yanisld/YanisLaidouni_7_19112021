@@ -25,9 +25,9 @@
 </template>
 
 <script>
-import router from "../router/index";
-import { mapState, mapActions } from 'vuex';
-import { formData, fetchGet, fetchDelete, fetchUpdate } from '@/functions.js';
+import router from '../router/index'
+import { mapState, mapActions } from 'vuex'
+import { formData, fetchGet, fetchDelete, fetchUpdate } from '@/functions.js'
 export default {
   name: 'UserDetails',
   props: { username: String},
@@ -46,62 +46,54 @@ export default {
       return (this.routeId = this.$route.params.userId);
     },
     async getUser() {
-      const route = this.userRoute + this.routeId; 
-      const data = await fetchGet(route);
-      if (data) {
+      try {
+        const route = this.userRoute + this.routeId; 
+        const data = await fetchGet(route);
         document.querySelector('#user_details_username_input').value = data.username;
         document.querySelector('#user_details_email_input').value = data.email;
         this.user = data;
       }
-      else {
-        console.error('Erreur fetch');
-      }
+      catch(err) { console.error(err) }
     },
     async updateUsername() {
+      try {
         const form = document.querySelector('#user_details_username');
         const body = formData(form);
         const route = this.userRoute + this.routeId;
-        const fetch = await fetchUpdate(route, body);
-        const result = fetch;
-        if (result == true) {
-          window.location.reload();
-        }
-        else {
-          console.error('Erreur fetch');
-        }
+        await fetchUpdate(route, body);
+        window.location.reload();
+      }
+      catch(err) { console.error(err) }
     },
     async updateEmail() {
+      try {
         const form = document.querySelector('#user_details_email');
         const body = formData(form);
         const route = this.userRoute + this.routeId;
-        const fetch = await fetchUpdate(route, body);
-        const result = fetch;
-        if (result == true) {
-          window.location.reload();
-        }
-        else {
-          console.error('Erreur fetch');
-        }
+        await fetchUpdate(route, body);
+        window.location.reload();
+      } 
+      catch(err) { console.error(err) }
     },
     async updatePassword() {
+      try {
         const form = document.querySelector('#user_details_password');
         const body = formData(form);
         const route = this.userRoute + this.routeId;
-        const fetch = await fetchUpdate(route, body);
-        const result = fetch;
-        if (result == true) {
-          window.location.reload();
-        }
-        else {
-          console.error('Erreur fetch');
-        }
+        await fetchUpdate(route, body);
+        window.location.reload();
+      } 
+      catch(err) { console.error(err) }
     },
     async logout() {
-      const route = this.userRoute + '/deconnexion';
-      localStorage.removeItem('name');
-      await fetchGet(route);
-      this.forceRerender();
-      router.push({ name: 'login' });
+      try {
+        const route = this.userRoute + '/deconnexion';
+        localStorage.removeItem('name');
+        await fetchGet(route);
+        this.forceRerender();
+        router.push({ name: 'login' });
+      } 
+      catch(err) { console.error(err) }
     },
     async deleteUser(id) {
       try {
@@ -109,15 +101,14 @@ export default {
         await fetchDelete(route);
         localStorage.removeItem('name');
         router.push({ name: 'login' });
-      } catch(err) {
-        console.error(err);
-      }
+      } 
+      catch(err) { console.error(err) }
     }
-},
-created() {
+  },
+  created() {
     this.createRoute();
     this.getUser();
-}
+  }
 }
 </script>
 
