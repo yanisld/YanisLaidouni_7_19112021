@@ -18,7 +18,7 @@
         placeholder="Mot de passe"
         required
       />
-      <div v-if="auth" class="login-form_feedback"><span>Indentifiant ou mot de passe incorrect</span></div>
+      <div v-if="auth" class="login-form_feedback"><span>Identifiant ou mot de passe incorrect</span></div>
       <input
         class="login-form_submit"
         id="login-form_submit"

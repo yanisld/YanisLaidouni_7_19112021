@@ -1,10 +1,14 @@
 <template>
   <div class="user_details">
       <ul class="user_details_list">
-          <li class="user_details_list_item"><form id="user_details_username" @submit.prevent="updateUsername"><input type="text" id="user_details_username_input" name="username" required />
-          <button type="submit" class="user_details_btn">Modifier</button></form></li>
-          <li class="user_details_list_item"><form id="user_details_email" @submit.prevent="updateEmail"><input type="text" name="email" id="user_details_email_input" required />
-          <button type="submit" class="user_details_btn">Modifier</button></form></li>
+          <li class="user_details_list_item"><form id="user_details_username" @submit.prevent="updateUsername">
+            <input type="text" id="user_details_username_input" class="user_details_input" name="username" required />
+            <button type="submit" class="user_details_btn">Modifier</button></form>
+          </li>
+          <li class="user_details_list_item"><form id="user_details_email" @submit.prevent="updateEmail">
+            <input type="text" name="email" id="user_details_email_input" class="user_details_input" required />
+            <button type="submit" class="user_details_btn">Modifier</button></form>
+          </li>
       </ul>
       <details class="user_details_password">
         <summary class="user_details_password_summary">Modifier le mot de passe</summary>
@@ -186,6 +190,30 @@ created() {
         background: darken($grey, 10%);
       }
     }
+  }
+}
+@media screen and (max-width: 374px) {
+  .user_details_list_item {
+    margin: 0 0 10px 0
+  }
+  .user_details_list_item input,
+  .user_details_password_input {
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+  }
+  .user_details_btn,
+  .user_details_password_btn{
+    margin: 0;
+    width: 100%;
+    padding: 10px 16px;
+  }
+  .user_details_password {
+    margin: 20px 0;
+  }
+  .user_details_btn_logout,
+  .user_details_btn_delete {
+    width:100%;
   }
 }
 </style>

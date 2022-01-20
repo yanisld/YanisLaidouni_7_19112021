@@ -31,6 +31,7 @@ export default {
     &_bottom {
         display: flex;
         flex-direction: row;
+         flex-wrap: wrap;
         margin: 10px auto;
         &_list {
             list-style: none;

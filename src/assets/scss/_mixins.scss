@@ -24,7 +24,7 @@
 @mixin modalForm {
   display: flex;
     flex-direction: column;
-    width: 440px;
+    max-width: 440px;
     margin: 100px auto 0;
     padding: 20px 30px;
     background-color: #fff;

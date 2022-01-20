@@ -135,9 +135,13 @@ export default {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1);
   margin: 0 0 15px 0;
   &_title {
+    cursor: pointer;
     font-family: $bold-text;
     font-size:20px;
     margin: 0;
+    &:hover {
+      color: $dark-grey;
+    }
   }
 }
 .post-list {

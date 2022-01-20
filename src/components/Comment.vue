@@ -7,11 +7,13 @@
         <span>&nbsp;-&nbsp;</span>
         <div class="comment_date">{{ date }}</div>
       </div>
-      <i v-if="showAction()" @click="editComment();showEdit()" class="fas fa-ellipsis-h comment_edit fa-2x"></i>
-      <ul class="comment_edit_list" v-if="showEditComment && edit">
-        <li class="comment_edit_list_item" @click="$emit('update')"><i class="fas fa-pen comment_edit_list_item_icon"></i>Modifier</li>
-        <li class="comment_edit_list_item" @click="$emit('delete')"><i class="fas fa-trash-alt comment_edit_list_item_icon"></i>Supprimer</li>
+      <div>
+        <i v-if="showAction()" @click="editComment();showEdit()" class="fas fa-ellipsis-h comment_edit fa-2x"></i>
+        <ul class="comment_edit_list" v-if="showEditComment && edit">
+          <li class="comment_edit_list_item" @click="$emit('update')"><i class="fas fa-pen comment_edit_list_item_icon"></i>Modifier</li>
+          <li class="comment_edit_list_item" @click="$emit('delete')"><i class="fas fa-trash-alt comment_edit_list_item_icon"></i>Supprimer</li>
       </ul>
+      </div>
     </div>
     <div class="comment_content">
       {{ content }}
@@ -107,7 +109,7 @@ export default {
       background: #fff;
       padding: 0;
       margin: 0;
-      transform: translate(200px, 52px) translate(172%);
+      transform: translate(32px, -6px) translate(-100%);
       border: 1px solid $grey;
       border-radius: 6px;
       &_item {

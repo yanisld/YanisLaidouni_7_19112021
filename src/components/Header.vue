@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <div>
-      <router-link @click="homeLink()" to="/home"><img src="../assets/images/groupomania-logo-rouge.png" alt="logo groupomania"></router-link>
+      <router-link @click="homeLink()" to="/home"><img class="logo" src="../assets/images/groupomania-logo-rouge.png" alt="logo groupomania"></router-link>
     </div>
     <Profil v-if="displayProfile()" :username="displayUsername()" :key="componentKey" />
   </header>
@@ -63,5 +63,15 @@ export default {
     z-index: 2;
     box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.175);
     padding: 10px 20px;
+    & .logo{
+      width: 100%;
+      height: auto;
+    }
+}
+@media screen and (max-width: 374px) {
+  .header{
+    display: flex;
+    flex-direction: column;
+  }
 }
 </style>
