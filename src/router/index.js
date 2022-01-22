@@ -4,6 +4,7 @@ import Register from '../views/Register.vue'
 import Home from '../views/Home.vue'
 import SinglePost from '../views/SinglePost.vue'
 import User from '../views/User.vue'
+import UsersList from '../views/UsersList.vue'
 
 const routes = [
   {
@@ -33,7 +34,13 @@ const routes = [
     name: 'utilisateur',
     component: User,
     props: true
-  }
+  },
+  {
+    path: '/utilisateurs',
+    name: 'utilisateurs',
+    component: UsersList,
+    props: true
+  },
 ]
 
 const router = createRouter({

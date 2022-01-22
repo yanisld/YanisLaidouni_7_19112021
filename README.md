@@ -17,4 +17,4 @@
 **Données de la base :**
 Vous pouvez soit partir de zéro en créant vos utilisateurs en créant vos utilisateurs, publications et commentaires, dans se cas il faudra créer le rôle « moderator » directement dans la base en SQL ou via Postman avant d’insérer d’autres données. Les utilisateurs modérateurs ne peuvent aussi être créé que via SQL ou Postman en renseignant l’identifiant du rôle de modérateur.
 
-Sinon, je vous mets dans le dossier config/datas à la racine, des utilisateurs, publications et commentaires à simplement copier/coller la partie « INSERT INTO » dans MySQL en respectant l’ordre d’insertion des données : Rôle -> User -> Post -> Comment -> Like. Les mots de passe des utilisateurs sont leur prénom en minuscule.
+Sinon, je vous mets dans le dossier config/datas à la racine, des utilisateurs, publications et commentaires à simplement copier/coller la partie « INSERT INTO » dans MySQL en respectant l’ordre d’insertion des données : Rôle -> User -> Post -> Comment -> Like. Les mots de passe des utilisateurs sont leur prénom en minuscule. Les modérateurs sont Chani et Leto.

@@ -18,6 +18,7 @@
           </form>
       </details>
       <div class="user_details_bottom">
+        <router-link v-if="userList()" class="user_details_users-list" :to="{ name: 'utilisateurs' }">Liste des utilisateurs</router-link>
         <button class="user_details_btn_logout" @click="logout()">Déconnexion</button>
         <button class="user_details_btn_delete" @click="deleteUser(routeId)">Supprimer mon compte</button>
       </div>
@@ -91,6 +92,14 @@ export default {
       } 
       catch(err) { console.error(err) }
     },
+    userList(){
+      let moderator = false
+      const role = JSON.parse(localStorage.getItem('name'))
+      if(role.value.role == 'moderator') {
+        return moderator = true
+      }
+      else { return moderator }
+    },
     async logout() {
       try {
         const route = this.userRoute + '/deconnexion';
@@ -160,6 +169,15 @@ export default {
   &_bottom {
     display: flex;
     flex-direction: column;
+  }
+  &_users-list {
+    margin: 20px 0 0 0;
+    width: 147px;
+    text-decoration: none;
+    @include button;
+    &:hover {
+      background-color: darken($primary-color, 10%);
+    }
   }
   &_btn {
     @include button;
