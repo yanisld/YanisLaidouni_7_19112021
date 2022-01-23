@@ -5,24 +5,25 @@
     :username="user.username"
     :email="user.email"
     :role="user.role.name"
-    @update="showModal=true"
+    @update="showModal=true;getUserContent(user.id);userId=user.id"
     @delete="deleteUser(user.id)"
     />
-    <ModalUpdateUser v-if="showModal" @close="showModal=false"/>
+    <ModalUpdateUser v-if="showModal" @close="showModal=false" @submit.prevent="updateUser(userId)" />
   </div>
 </template>
 
 <script>
 import User from '@/components/User.vue'
 import ModalUpdateUser from '@/components/ModalUpdateUser.vue'
-import { fetchGet, fetchDelete } from '@/functions.js'
+import { formData, fetchGet, fetchDelete, fetchUpdate } from '@/functions.js'
 import { mapState } from 'vuex'
 export default {
   name: 'UsersList',
   data(){
       return {
           users: '',
-          showModal: false
+          showModal: false,
+          userId: ''
       }
   },
   components: {
@@ -47,6 +48,27 @@ export default {
         this.getAllUsers()
       } 
       catch(err) { console.error(err) }
+    },
+    async getUserContent(id){
+      try {
+        const route = this.userRoute + id
+        const data = await fetchGet(route)
+        let username = document.getElementById('modal-user_form_username')
+        let email = document.getElementById('modal-user_form_email')
+        let password = document.getElementById('modal-user_form_password')
+        username.value = data.username
+        email.value = data.email
+        password.value = data.password
+      }
+      catch (err) { console.error(err) }
+    },
+    async updateUser(id){
+      const route = this.userRoute + id
+      const form = document.querySelector('#modal-user_form')
+      const body = formData(form)
+      await fetchUpdate(route, body)
+      this.showModal = false
+      this.getAllUsers()
     }
   },
   created(){

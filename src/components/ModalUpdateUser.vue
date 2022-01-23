@@ -2,8 +2,8 @@
   <div class="modal-user">
     <form id="modal-user_form" class="modal-user_form">
       <input id="modal-user_form_username" class="modal-user_form_input" type="text" name="username" required />
-      <input id="modal-user_form_email" class="modal-user_form_input" type="text" name="email" required />
-      <input id="modal-user_form_password" class="modal-user_form_input" type="text" name="password" required />
+      <input id="modal-user_form_email" class="modal-user_form_input" type="email" name="email" required />
+      <input id="modal-user_form_password" class="modal-user_form_input" type="password" name="password" required />
       <input type="submit" class="modal-user_form_submit" value="Modifier" />
       <button class="modal-user_form_close" @click="$emit('close')">Annuler</button>
     </form>
