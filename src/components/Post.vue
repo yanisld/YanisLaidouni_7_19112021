@@ -10,10 +10,11 @@
         <div class="post_date">{{ date }}</div>
       </div>
       <div>
-        <i v-if="showAction()" @click="showEdit == false ? (showEdit = true) : (showEdit = false);showPostEdit()" class="fas fa-ellipsis-h post_edit fa-2x"></i>
+        <i v-if="showAction()" @click="showEdit == false ? (showEdit = true) : (showEdit = false);showPostEdit()" 
+        @keyup.enter="showEdit == false ? (showEdit = true) : (showEdit = false);showPostEdit()" class="fas fa-ellipsis-h post_edit fa-2x" tabindex="0"></i>
         <ul class="post_edit_list" v-if="showEdit && edit">
-          <li class="post_edit_list_item" @click="$emit('update')"><i class="fas fa-pen post_edit_list_item_icon"></i>Modifier</li>
-          <li class="post_edit_list_item" @click="$emit('delete')"><i class="fas fa-trash-alt post_edit_list_item_icon"></i>Supprimer</li>
+          <li class="post_edit_list_item" @click="$emit('update')" @keyup.enter="$emit('update')"><i class="fas fa-pen post_edit_list_item_icon" tabindex="0"></i>Modifier</li>
+          <li class="post_edit_list_item" @click="$emit('delete')" @keyup.enter="$emit('delete')"><i class="fas fa-trash-alt post_edit_list_item_icon" tabindex="0"></i>Supprimer</li>
         </ul>
       </div>
     </div>
@@ -24,7 +25,7 @@
         <router-link class="post_comment_link" :to="{ name: 'publication', params: { postId: id } }" ><i class="far fa-comment"></i> Commenter</router-link>
       </div>
       <div>
-        <div @click="$emit('createLike')" class="post_like"><div>{{ like }}</div><i class="far fa-thumbs-up post_like_icon"></i></div>
+        <div @click="$emit('createLike')" @keyup.enter="$emit('createLike')" class="post_like" tabindex="0"><div>{{ like }}</div><i class="far fa-thumbs-up post_like_icon"></i></div>
       </div>
     </div>
   </div>

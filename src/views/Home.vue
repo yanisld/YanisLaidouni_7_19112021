@@ -1,7 +1,7 @@
 <template>
   <div class="post-list">
     <div class="add-post">
-      <h1 class="add-post_title"><a @click="showModal=true">Créer une publication</a></h1>
+      <h1 class="add-post_title"><a @click="showModal=true" @keyup.enter="showModal=true" tabindex="0">Créer une publication</a></h1>
     </div>
     <Post v-for="(post, index) in posts" v-bind:key="index"
     :idUser="post.user.id"

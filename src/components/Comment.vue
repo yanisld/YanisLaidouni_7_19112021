@@ -10,10 +10,10 @@
         <div class="comment_date">{{ date }}</div>
       </div>
       <div>
-        <i v-if="showAction()" @click="editComment();showEdit()" class="fas fa-ellipsis-h comment_edit fa-2x"></i>
+        <i v-if="showAction()" @click="editComment();showEdit()" @keyup.enter="editComment();showEdit()" tabindex="0" class="fas fa-ellipsis-h comment_edit fa-2x"></i>
         <ul class="comment_edit_list" v-if="showEditComment && edit">
-          <li class="comment_edit_list_item" @click="$emit('update')"><i class="fas fa-pen comment_edit_list_item_icon"></i>Modifier</li>
-          <li class="comment_edit_list_item" @click="$emit('delete')"><i class="fas fa-trash-alt comment_edit_list_item_icon"></i>Supprimer</li>
+          <li class="comment_edit_list_item" @click="$emit('update')" @keyup.enter="$emit('update')" tabindex="0"><i class="fas fa-pen comment_edit_list_item_icon"></i>Modifier</li>
+          <li class="comment_edit_list_item" @click="$emit('delete')" @keyup.enter="$emit('delete')" tabindex="0"><i class="fas fa-trash-alt comment_edit_list_item_icon"></i>Supprimer</li>
       </ul>
       </div>
     </div>
