@@ -33,7 +33,6 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import constant from '../../config/constant'
 export default {
   name: 'Post',
   props: {
@@ -65,7 +64,7 @@ export default {
     showAction(){
       const currentUser = JSON.parse(localStorage.getItem('name'));
       let show = false;
-      if(this.idUser == currentUser.value.id || currentUser.value.role == constant.admin){
+      if(this.idUser == currentUser.value.id || currentUser.value.role == 'moderator'){
         return show = true
       }
       return show
@@ -73,7 +72,7 @@ export default {
     dontShowAction(){
       const currentUser = JSON.parse(localStorage.getItem('name'));
       let show = true;
-      if(this.idUser == currentUser.value.id || currentUser.value.role == constant.admin){
+      if(this.idUser == currentUser.value.id || currentUser.value.role == 'moderator'){
         return show = false
       }
       return show
